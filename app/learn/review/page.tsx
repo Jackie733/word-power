@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WordCard } from "@/components/ui/word-card";
-import { AnimatedContainer } from "@/components/ui/animated-container";
+import { AnimatedContainer } from "@/components/animated-container";
 
 interface Word {
   id: number;

@@ -12,6 +12,7 @@ import {
   Menu,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
 
 const Navigation = () => {
@@ -96,19 +97,36 @@ const Navigation = () => {
                 </motion.div>
               );
             })}
+
+            {/* 主题切换按钮 */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + navItems.length * 0.1, duration: 0.3 }}
+            >
+              <ModeToggle />
+            </motion.div>
           </div>
 
-          {/* 移动端菜单按钮 */}
-          <motion.div
-            className="md:hidden"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
-          >
-            <Button variant="ghost" size="sm">
-              <Menu className="w-5 h-5" />
-            </Button>
-          </motion.div>
+          {/* 移动端菜单和主题切换 */}
+          <div className="md:hidden flex items-center space-x-2">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
+            >
+              <ModeToggle />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25, duration: 0.3 }}
+            >
+              <Button variant="ghost" size="sm">
+                <Menu className="w-5 h-5" />
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </div>
     </motion.nav>

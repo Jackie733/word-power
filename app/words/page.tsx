@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { AnimatedContainer } from "@/components/ui/animated-container";
+import { AnimatedContainer } from "@/components/animated-container";
 import { StatCard } from "@/components/ui/stat-card";
 
 interface Word {

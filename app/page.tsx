@@ -11,7 +11,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AnimatedContainer } from "@/components/ui/animated-container";
+import { AnimatedContainer } from "@/components/animated-container";
 
 export default function Dashboard() {
   // 模拟数据 - 后续会从数据库获取
