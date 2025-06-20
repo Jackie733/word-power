@@ -3,18 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, Target, Clock, Info } from "lucide-react";
+import { Target, Clock, Info } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PageHeader } from "@/components/page-header";
 import { ReviewCard } from "@/components/review-card";
-import { AnimatedContainer } from "@/components/animated-container";
 
 interface Word {
   id: number;
@@ -86,7 +87,12 @@ export default function ReviewWords() {
   if (reviewWords.length === 0) {
     return (
       <div className="flex flex-grow items-center justify-center bg-background">
-        <AnimatedContainer variant="scale" className="text-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
             No words to review today
@@ -97,7 +103,7 @@ export default function ReviewWords() {
           <Button asChild>
             <Link href="/">Back to Dashboard</Link>
           </Button>
-        </AnimatedContainer>
+        </motion.div>
       </div>
     );
   }
@@ -105,7 +111,12 @@ export default function ReviewWords() {
   if (completedWords.length === reviewWords.length) {
     return (
       <div className="bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center flex-grow">
-        <AnimatedContainer variant="scale" className="text-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <motion.div
             className="text-6xl mb-4"
             initial={{ scale: 0 }}
@@ -144,23 +155,19 @@ export default function ReviewWords() {
               <Link href="/">Back to Dashboard</Link>
             </Button>
           </motion.div>
-        </AnimatedContainer>
+        </motion.div>
       </div>
     );
   }
 
   return (
     <div className="bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         {/* Page Title and Progress */}
-        <AnimatedContainer variant="slideDown" className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-            </Button>
+        <PageHeader
+          title="Review Words"
+          description={`There are ${remainingWords} words left to review.`}
+          action={
             <motion.div
               className="flex items-center gap-4 text-sm text-muted-foreground"
               initial={{ opacity: 0, x: 20 }}
@@ -169,34 +176,25 @@ export default function ReviewWords() {
             >
               <div className="flex items-center gap-1">
                 <Target className="w-4 h-4" />
-                Progress: {completedWords.length + 1} / {reviewWords.length}
+                <span className="hidden sm:inline">Progress:</span>
+                {completedWords.length + 1} / {reviewWords.length}
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                Remaining: {remainingWords}
+                <span className="hidden sm:inline">Remaining:</span>
+                {remainingWords}
               </div>
             </motion.div>
-          </div>
-          <motion.h1
-            className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-2"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            Review Words
-          </motion.h1>
-          <motion.p
-            className="text-muted-foreground"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            There are {remainingWords} words left to review.
-          </motion.p>
-        </AnimatedContainer>
+          }
+        />
 
         {/* Progress Bar */}
-        <AnimatedContainer variant="slideUp" delay={0.3} className="mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.3 }}
+          className="mb-6 md:mb-8"
+        >
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
@@ -214,13 +212,14 @@ export default function ReviewWords() {
               />
             </CardContent>
           </Card>
-        </AnimatedContainer>
+        </motion.div>
 
         {/* Word Card */}
-        <AnimatedContainer
-          variant="scale"
-          delay={0.5}
+        <motion.div
           className="max-w-2xl mx-auto"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -239,13 +238,14 @@ export default function ReviewWords() {
               />
             </motion.div>
           </AnimatePresence>
-        </AnimatedContainer>
+        </motion.div>
 
         {/* Review Instructions */}
-        <AnimatedContainer
-          variant="slideUp"
-          delay={0.7}
-          className="mx-auto mt-8 max-w-2xl"
+        <motion.div
+          className="mx-auto mt-6 md:mt-8 max-w-2xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.3 }}
         >
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
@@ -273,7 +273,7 @@ export default function ReviewWords() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </AnimatedContainer>
+        </motion.div>
       </div>
     </div>
   );

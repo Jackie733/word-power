@@ -1,30 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { motion } from "motion/react";
 import {
-  ArrowLeft,
   BookOpen,
-  Volume2,
-  Info,
   Search,
+  Volume2,
   Loader2,
   AlertCircle,
-  History,
-  Brain,
+  CheckCircle,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { AnimatedContainer } from "@/components/animated-container";
+import { PageHeader } from "@/components/page-header";
 
 interface WordData {
   word: string;
@@ -75,6 +66,8 @@ export default function LearnNewWords() {
   const [wordToSearch, setWordToSearch] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [wordData, setWordData] = useState<WordData | null>(null);
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -176,7 +169,8 @@ export default function LearnNewWords() {
     if (!wordData) return;
 
     setIsSubmitting(true);
-    setSearchError(null); // Clear previous errors
+    setSubmitError(null);
+    setSubmitSuccess(false);
 
     try {
       const response = await fetch("/api/words", {
@@ -205,13 +199,12 @@ export default function LearnNewWords() {
       setExample("");
       setWordData(null);
       setWordToSearch("");
-      setSearchError(null);
-      // Optionally, show a success message here in the future
+      setSubmitSuccess(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setSearchError(error.message);
+        setSubmitError(error.message);
       } else {
-        setSearchError("An unknown error occurred while saving the word.");
+        setSubmitError("An unknown error occurred while saving the word.");
       }
     } finally {
       setIsSubmitting(false);
@@ -220,43 +213,20 @@ export default function LearnNewWords() {
 
   return (
     <div className="bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         {/* Page Title */}
-        <AnimatedContainer variant="slideDown" className="mb-8">
-          <motion.div
-            className="flex items-center mb-4"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-            </Button>
-          </motion.div>
-          <motion.h1
-            className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            Learn New Words
-          </motion.h1>
-          <motion.p
-            className="text-muted-foreground"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            Add new English words to your learning library
-          </motion.p>
-        </AnimatedContainer>
+        <PageHeader
+          title="Learn New Words"
+          description="Add new English words to your learning library"
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           {/* Add Word Form */}
-          <AnimatedContainer variant="slideUp" delay={0.3}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.3 }}
+          >
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -419,97 +389,98 @@ export default function LearnNewWords() {
                   >
                     <Button
                       type="submit"
-                      disabled={isSubmitting || !wordData}
                       className="w-full"
-                      size="lg"
+                      disabled={isSubmitting || !wordData}
                     >
                       {isSubmitting ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Adding Word...
+                        </>
                       ) : (
-                        <BookOpen className="w-4 h-4 mr-2" />
+                        <>
+                          <BookOpen className="w-4 h-4 mr-2" />
+                          Add to Library
+                        </>
                       )}
-                      {isSubmitting ? "Adding..." : "Add Word to Library"}
                     </Button>
                   </motion.div>
+
+                  {submitError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 text-sm text-destructive bg-destructive/10 rounded-md flex items-center gap-2"
+                    >
+                      <AlertCircle className="w-4 h-4" />
+                      {submitError}
+                    </motion.div>
+                  )}
+
+                  {submitSuccess && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 text-sm text-green-700 bg-green-50 dark:text-green-400 dark:bg-green-900/20 rounded-md flex items-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      Word added successfully! You can now review it.
+                    </motion.div>
+                  )}
                 </form>
               </CardContent>
             </Card>
-          </AnimatedContainer>
+          </motion.div>
 
-          {/* Learning Tips Section */}
-          <AnimatedContainer variant="slideUp" delay={0.4}>
-            <Accordion
-              type="single"
-              collapsible
-              defaultValue="item-1"
-              className="w-full"
-            >
-              <AccordionItem value="item-1">
-                <AccordionTrigger>
-                  <div className="flex items-center gap-2">
-                    <Info className="w-5 h-5" />
-                    <span>Learning Tips</span>
+          {/* Preview Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.3 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>Preview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {wordData ? (
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-primary">
+                        {word}
+                      </h3>
+                      {pronunciation && (
+                        <p className="text-muted-foreground text-sm mt-1">
+                          {pronunciation}
+                        </p>
+                      )}
+                    </div>
+
+                    {meaning && (
+                      <div>
+                        <h4 className="font-semibold mb-2">Definition</h4>
+                        <p className="text-sm leading-relaxed">{meaning}</p>
+                      </div>
+                    )}
+
+                    {example && (
+                      <div>
+                        <h4 className="font-semibold mb-2">Example</h4>
+                        <p className="text-sm leading-relaxed italic">
+                          &ldquo;{example}&rdquo;
+                        </p>
+                      </div>
+                    )}
                   </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="space-y-2 pl-4 text-sm text-muted-foreground list-disc">
-                    <li>
-                      After adding a word, the first learning session will start
-                      immediately.
-                    </li>
-                    <li>
-                      Try to understand the definition and example sentence
-                      thoroughly.
-                    </li>
-                    <li>
-                      Use the pronunciation guide to practice speaking the word
-                      aloud.
-                    </li>
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>
-                  <div className="flex items-center gap-2">
-                    <History className="w-5 h-5" />
-                    <span>Review Plan</span>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                    <p>Search for a word to see the preview</p>
                   </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="text-sm text-muted-foreground">
-                    Words you add will be automatically scheduled for review
-                    using a spaced repetition system (SRS) to enhance long-term
-                    memory. You&apos;ll be prompted to review them at increasing
-                    intervals: 1 day, 3 days, 1 week, and so on.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>
-                  <div className="flex items-center gap-2">
-                    <Brain className="w-5 h-5" />
-                    <span>Memory Tips</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="space-y-2 pl-4 text-sm text-muted-foreground list-disc">
-                    <li>
-                      Create a mental image associated with the word&apos;s
-                      meaning.
-                    </li>
-                    <li>
-                      Connect the new word to words you already know, either in
-                      English or your native language.
-                    </li>
-                    <li>
-                      Try to use the new word in a sentence of your own
-                      creation.
-                    </li>
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </AnimatedContainer>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </div>
     </div>

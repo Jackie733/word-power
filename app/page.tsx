@@ -1,54 +1,58 @@
+"use client";
+
 import Link from "next/link";
-import * as motion from "motion/react-client";
 import {
   BookOpen,
   RotateCcw,
-  Library,
-  BarChart3,
   TrendingUp,
   MoveRight,
+  Plus,
+  RefreshCw,
+  Library,
+  BarChart3,
 } from "lucide-react";
-import { StatCard } from "@/components/stat-card";
+import { motion } from "motion/react";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { AnimatedContainer } from "@/components/animated-container";
+import { StatCard } from "@/components/stat-card";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
-  // Mock data - will be fetched from the database later
+  // Mock data - in a real app, this would come from your database
   const todayStats = {
-    newWords: 12,
-    reviewWords: 8,
-    completedWords: 15,
+    newWords: 5,
+    reviewWords: 12,
+    completedWords: 8,
     accuracy: 85,
   };
 
   const upcomingReviews = [
-    { id: 1, word: "serendipity", nextReview: "Today", stage: 1 },
-    { id: 2, word: "ubiquitous", nextReview: "Today", stage: 2 },
-    { id: 3, word: "ephemeral", nextReview: "Tomorrow", stage: 3 },
+    { id: 1, word: "serendipity", stage: 3, nextReview: "In 2 hours" },
+    { id: 2, word: "ephemeral", stage: 2, nextReview: "In 4 hours" },
+    { id: 3, word: "ubiquitous", stage: 1, nextReview: "Tomorrow" },
   ];
 
   const quickActions = [
     {
       href: "/learn/new",
       title: "Learn New Words",
-      description: "Add and learn new words",
-      icon: BookOpen,
-      color: "text-blue-500",
+      description: "Add new words to your vocabulary",
+      icon: Plus,
+      color: "text-green-500",
     },
     {
       href: "/learn/review",
       title: "Review Words",
-      description: "Review words based on the forgetting curve",
-      icon: RotateCcw,
-      color: "text-green-500",
+      description: "Review words due for practice",
+      icon: RefreshCw,
+      color: "text-blue-500",
     },
     {
       href: "/words",
-      title: "Manage Words",
-      description: "View and manage all your words",
+      title: "Word Library",
+      description: "Browse and manage your word collection",
       icon: Library,
       color: "text-purple-500",
     },
@@ -63,30 +67,25 @@ export default function Dashboard() {
 
   return (
     <div className="bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         {/* Page Title */}
-        <AnimatedContainer variant="slideDown" className="mb-8">
-          <motion.h1
-            className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
+        <motion.div
+          className="mb-6 md:mb-8"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent leading-tight mb-1">
             Word Power
-          </motion.h1>
-          <motion.p
-            className="text-muted-foreground text-lg"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
+          </h1>
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
             English word learning system based on the Ebbinghaus forgetting
             curve
-          </motion.p>
-        </AnimatedContainer>
+          </p>
+        </motion.div>
 
         {/* Today's Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           <StatCard
             title="New Words"
             value={todayStats.newWords}
@@ -126,12 +125,13 @@ export default function Dashboard() {
         </div>
 
         {/* Main Actions */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Quick Start */}
-          <AnimatedContainer
-            variant="slideUp"
-            delay={0.4}
+          <motion.div
             className="lg:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.3 }}
           >
             <Card>
               <CardHeader>
@@ -194,10 +194,14 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-          </AnimatedContainer>
+          </motion.div>
 
           {/* Words to Review */}
-          <AnimatedContainer variant="slideUp" delay={0.6}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.3 }}
+          >
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -242,7 +246,7 @@ export default function Dashboard() {
                 </motion.div>
               </CardContent>
             </Card>
-          </AnimatedContainer>
+          </motion.div>
         </div>
       </div>
     </div>

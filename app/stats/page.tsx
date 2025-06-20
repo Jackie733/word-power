@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "motion/react";
 import {
-  ArrowLeft,
   BookOpen,
   CheckCircle,
   Flame,
@@ -11,11 +9,10 @@ import {
   Calendar,
   TrendingUp,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { AnimatedContainer } from "@/components/animated-container";
+import { PageHeader } from "@/components/page-header";
 import { StatCard } from "@/components/stat-card";
 
 export default function StatsPage() {
@@ -57,46 +54,15 @@ export default function StatsPage() {
 
   return (
     <div className="bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         {/* Page Title */}
-        <AnimatedContainer variant="fadeIn">
-          <div className="mb-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center mb-4"
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                asChild
-                className="hover:bg-white/50"
-              >
-                <Link href="/" className="text-blue-600 hover:text-blue-800">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Dashboard
-                </Link>
-              </Button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2">
-                Learning Statistics
-              </h1>
-              <p className="text-muted-foreground text-lg">
-                Review your learning progress and achievements
-              </p>
-            </motion.div>
-          </div>
-        </AnimatedContainer>
+        <PageHeader
+          title="Learning Statistics"
+          description="Review your learning progress and achievements"
+        />
 
         {/* Main Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           <StatCard
             title="Total Words"
             value={stats.totalWords.toString()}
@@ -134,9 +100,13 @@ export default function StatsPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           {/* Weekly Goal */}
-          <AnimatedContainer variant="slideUp" delay={0.2}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.3 }}
+          >
             <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -196,10 +166,14 @@ export default function StatsPage() {
                 </div>
               </CardContent>
             </Card>
-          </AnimatedContainer>
+          </motion.div>
 
           {/* Mastery Distribution */}
-          <AnimatedContainer variant="slideUp" delay={0.3}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.3 }}
+          >
             <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -211,111 +185,72 @@ export default function StatsPage() {
                 <div className="space-y-4">
                   {masteryDistribution.map((item, index) => (
                     <motion.div
-                      key={index}
+                      key={item.level}
                       className="flex items-center justify-between"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                      transition={{ delay: 0.5 + index * 0.1, duration: 0.3 }}
                     >
-                      <div className="flex items-center flex-1">
-                        <div className={`w-4 h-4 rounded ${item.color} mr-3`} />
-                        <span className="text-sm text-slate-700">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded ${item.color}`} />
+                        <span className="text-sm font-medium">
                           {item.level}
                         </span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-lg font-semibold text-slate-800 min-w-[2rem] text-right">
-                          {item.count}
-                        </span>
-                        <div className="w-20 bg-muted rounded-full h-2">
-                          <motion.div
-                            className={`h-2 rounded-full ${item.color}`}
-                            initial={{ width: 0 }}
-                            animate={{
-                              width: `${(item.count / stats.totalWords) * 100}%`,
-                            }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.5 + index * 0.1,
-                            }}
-                          />
-                        </div>
-                      </div>
+                      <Badge variant="outline" className="font-mono">
+                        {item.count}
+                      </Badge>
                     </motion.div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-          </AnimatedContainer>
+          </motion.div>
         </div>
 
         {/* Recent Activity */}
-        <AnimatedContainer variant="slideUp" delay={0.4} className="mt-8">
+        <motion.div
+          className="mt-6 md:mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.3 }}
+        >
           <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Recent Learning Activity
-              </CardTitle>
+              <CardTitle>Recent Activity</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-slate-200">
-                      <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        Date
-                      </th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        New Words
-                      </th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        Reviews
-                      </th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        Accuracy
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recentActivity.map((activity, index) => (
-                      <motion.tr
-                        key={activity.date}
-                        className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                      >
-                        <td className="py-3 px-4 text-slate-700 font-medium">
-                          {new Date(activity.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </td>
-                        <td className="py-3 px-4">
-                          <Badge variant="secondary" className="text-xs">
-                            +{activity.newWords}
-                          </Badge>
-                        </td>
-                        <td className="py-3 px-4 text-slate-700">
-                          {activity.reviews}
-                        </td>
-                        <td className="py-3 px-4">
-                          <Badge
-                            variant={getAccuracyBadgeVariant(activity.accuracy)}
-                            className="text-xs"
-                          >
-                            {activity.accuracy}%
-                          </Badge>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-4">
+                {recentActivity.map((day, index) => (
+                  <motion.div
+                    key={day.date}
+                    className="flex items-center justify-between p-4 rounded-lg border bg-muted/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 + index * 0.05, duration: 0.3 }}
+                    whileHover={{ scale: 1.01 }}
+                  >
+                    <div>
+                      <div className="font-medium">
+                        {new Date(day.date).toLocaleDateString("en-US", {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {day.newWords} new • {day.reviews} reviews
+                      </div>
+                    </div>
+                    <Badge variant={getAccuracyBadgeVariant(day.accuracy)}>
+                      {day.accuracy}% accuracy
+                    </Badge>
+                  </motion.div>
+                ))}
               </div>
             </CardContent>
           </Card>
-        </AnimatedContainer>
+        </motion.div>
       </div>
     </div>
   );
