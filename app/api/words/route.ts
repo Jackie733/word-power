@@ -3,6 +3,25 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
+export async function GET() {
+  try {
+    const words = await prisma.word.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return NextResponse.json(words);
+  } catch (error) {
+    console.error("Error fetching words:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch words" },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
