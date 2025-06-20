@@ -33,13 +33,14 @@ interface Word {
 }
 
 export default function WordsManagement() {
-  // 模拟单词数据
+  // Mock word data
   const [words] = useState<Word[]>([
     {
       id: 1,
       word: "serendipity",
       pronunciation: "/ˌserənˈdɪpəti/",
-      meaning: "意外发现有价值或令人愉快的事物的能力",
+      meaning:
+        "The faculty of making happy and unexpected discoveries by accident.",
       example: "It was pure serendipity that led me to find this book.",
       addedDate: "2024-01-15",
       reviewCount: 3,
@@ -50,7 +51,7 @@ export default function WordsManagement() {
       id: 2,
       word: "ubiquitous",
       pronunciation: "/juːˈbɪkwɪtəs/",
-      meaning: "无处不在的，普遍存在的",
+      meaning: "Present, appearing, or found everywhere.",
       example: "Smartphones have become ubiquitous in modern society.",
       addedDate: "2024-01-14",
       reviewCount: 2,
@@ -61,7 +62,7 @@ export default function WordsManagement() {
       id: 3,
       word: "ephemeral",
       pronunciation: "/ɪˈfem(ə)rəl/",
-      meaning: "短暂的，瞬息的",
+      meaning: "Lasting for a very short time.",
       example: "The beauty of cherry blossoms is ephemeral.",
       addedDate: "2024-01-13",
       reviewCount: 4,
@@ -72,7 +73,7 @@ export default function WordsManagement() {
       id: 4,
       word: "eloquent",
       pronunciation: "/ˈeləkwənt/",
-      meaning: "雄辩的，有说服力的",
+      meaning: "Fluent or persuasive in speaking or writing.",
       example: "She gave an eloquent speech about climate change.",
       addedDate: "2024-01-12",
       reviewCount: 1,
@@ -83,7 +84,7 @@ export default function WordsManagement() {
       id: 5,
       word: "paradigm",
       pronunciation: "/ˈpærəˌdaɪm/",
-      meaning: "模式，范例",
+      meaning: "A typical example or pattern of something; a model.",
       example: "The new theory represents a paradigm shift in physics.",
       addedDate: "2024-01-11",
       reviewCount: 5,
@@ -100,7 +101,7 @@ export default function WordsManagement() {
     "all"
   );
 
-  // 过滤和排序单词
+  // Filter and sort words
   const filteredAndSortedWords = words
     .filter(word => {
       const matchesSearch =
@@ -132,9 +133,9 @@ export default function WordsManagement() {
   };
 
   const getMasteryText = (level: number) => {
-    if (level >= 80) return "已掌握";
-    if (level >= 50) return "学习中";
-    return "待加强";
+    if (level >= 80) return "Mastered";
+    if (level >= 50) return "Learning";
+    return "Needs Improvement";
   };
 
   const totalWords = words.length;
@@ -144,7 +145,7 @@ export default function WordsManagement() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       <div className="container mx-auto px-4 py-8">
-        {/* 页面标题 */}
+        {/* Page Title */}
         <AnimatedContainer variant="fadeIn">
           <div className="mb-8">
             <motion.div
@@ -161,7 +162,7 @@ export default function WordsManagement() {
               >
                 <Link href="/" className="text-blue-600 hover:text-blue-800">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  返回仪表板
+                  Back to Dashboard
                 </Link>
               </Button>
             </motion.div>
@@ -173,10 +174,10 @@ export default function WordsManagement() {
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2">
-                  单词管理
+                  Word Management
                 </h1>
                 <p className="text-slate-600 text-lg">
-                  管理您的单词库，共 {totalWords} 个单词
+                  Manage your word library, {totalWords} words in total
                 </p>
               </motion.div>
 
@@ -191,7 +192,7 @@ export default function WordsManagement() {
                 >
                   <Link href="/learn/new">
                     <Plus className="h-4 w-4 mr-2" />
-                    添加新单词
+                    Add New Word
                   </Link>
                 </Button>
               </motion.div>
@@ -199,10 +200,10 @@ export default function WordsManagement() {
           </div>
         </AnimatedContainer>
 
-        {/* 统计卡片 */}
+        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <StatCard
-            title="总单词数"
+            title="Total Words"
             value={totalWords.toString()}
             icon={<BookOpen className="h-6 w-6" />}
             trend="up"
@@ -210,7 +211,7 @@ export default function WordsManagement() {
             className="delay-0"
           />
           <StatCard
-            title="已掌握"
+            title="Mastered"
             value={masteredWords.toString()}
             icon={<CheckCircle className="h-6 w-6" />}
             trend="up"
@@ -218,7 +219,7 @@ export default function WordsManagement() {
             className="delay-100"
           />
           <StatCard
-            title="学习中"
+            title="Learning"
             value={learningWords.toString()}
             icon={<Clock className="h-6 w-6" />}
             trend="neutral"
@@ -227,20 +228,20 @@ export default function WordsManagement() {
           />
         </div>
 
-        {/* 搜索和过滤 */}
+        {/* Search and Filter */}
         <AnimatedContainer variant="slideUp" className="mb-8">
           <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Filter className="h-5 w-5" />
-                搜索与筛选
+                Search & Filter
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">
-                    搜索单词
+                    Search Words
                   </label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -249,29 +250,29 @@ export default function WordsManagement() {
                       value={searchTerm}
                       onChange={e => setSearchTerm(e.target.value)}
                       className="pl-10"
-                      placeholder="输入单词或释义..."
+                      placeholder="Enter word or definition..."
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">
-                    排序方式
+                    Sort By
                   </label>
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value as typeof sortBy)}
                     className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   >
-                    <option value="addedDate">按添加时间</option>
-                    <option value="word">按字母顺序</option>
-                    <option value="masteryLevel">按掌握程度</option>
+                    <option value="addedDate">By Date Added</option>
+                    <option value="word">Alphabetically</option>
+                    <option value="masteryLevel">By Mastery Level</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">
-                    筛选条件
+                    Filter By
                   </label>
                   <select
                     value={filterBy}
@@ -280,9 +281,9 @@ export default function WordsManagement() {
                     }
                     className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   >
-                    <option value="all">全部单词</option>
-                    <option value="learning">学习中</option>
-                    <option value="mastered">已掌握</option>
+                    <option value="all">All Words</option>
+                    <option value="learning">Learning</option>
+                    <option value="mastered">Mastered</option>
                   </select>
                 </div>
               </div>
@@ -290,7 +291,7 @@ export default function WordsManagement() {
           </Card>
         </AnimatedContainer>
 
-        {/* 单词列表 */}
+        {/* Word List */}
         <AnimatedContainer variant="slideUp" delay={0.2}>
           <div className="space-y-4">
             {filteredAndSortedWords.map((word, index) => (
@@ -324,16 +325,16 @@ export default function WordsManagement() {
                         </p>
 
                         <div className="flex items-center gap-4 mt-3 text-sm text-slate-500">
-                          <span>添加于: {word.addedDate}</span>
-                          <span>复习次数: {word.reviewCount}</span>
-                          <span>下次复习: {word.nextReviewDate}</span>
+                          <span>Added: {word.addedDate}</span>
+                          <span>Reviewed: {word.reviewCount} times</span>
+                          <span>Next Review: {word.nextReviewDate}</span>
                         </div>
                       </div>
 
                       <div className="lg:w-48 space-y-2">
                         <div className="flex justify-between items-center">
                           <span className="text-sm font-medium text-slate-700">
-                            掌握程度
+                            Mastery Level
                           </span>
                           <span className="text-sm font-bold">
                             {word.masteryLevel}%
@@ -355,13 +356,15 @@ export default function WordsManagement() {
                   <BookOpen className="h-12 w-12 mx-auto" />
                 </div>
                 <h3 className="text-lg font-medium text-slate-600 mb-2">
-                  没有找到匹配的单词
+                  No matching words found
                 </h3>
-                <p className="text-slate-500">尝试调整搜索条件或添加新单词</p>
+                <p className="text-slate-500">
+                  Try adjusting your search criteria or adding a new word
+                </p>
                 <Button asChild className="mt-4">
                   <Link href="/learn/new">
                     <Plus className="h-4 w-4 mr-2" />
-                    添加新单词
+                    Add New Word
                   </Link>
                 </Button>
               </CardContent>

@@ -1,146 +1,146 @@
-# Word Power - 项目设计说明
+# Word Power - Project Design Document
 
-## 📖 项目概述
+## 📖 Project Overview
 
-Word Power 是一个基于艾宾浩斯遗忘曲线的英语单词学习应用，旨在帮助用户高效地学习和记忆英语单词。
+Word Power is an English word learning application based on the Ebbinghaus forgetting curve, designed to help users efficiently learn and remember English words.
 
-## 🎯 核心功能
+## 🎯 Core Features
 
-### 1. 仪表板 (Dashboard)
+### 1. Dashboard
 
-- **路径**: `/`
-- **功能**:
-  - 显示今日学习统计（新学单词、复习单词、已完成、正确率）
-  - 快速访问主要功能（学习新单词、复习单词、单词管理、学习统计）
-  - 显示待复习单词列表
-- **设计理念**: 一目了然的概览界面，让用户快速了解学习进度
+- **Path**: `/`
+- **Functionality**:
+  - Display today's learning statistics (new words, words reviewed, completed, accuracy)
+  - Quick access to main features (Learn New Words, Review Words, Manage Words, Learning Stats)
+  - Display list of words due for review
+- **Design Philosophy**: An at-a-glance overview interface that allows users to quickly understand their learning progress.
 
-### 2. 学习新单词 (Learn New Words)
+### 2. Learn New Words
 
-- **路径**: `/learn/new`
-- **功能**:
-  - 添加新单词表单（单词、音标、释义、例句）
-  - 学习提示和复习计划说明
-  - 记忆技巧建议
-- **设计理念**: 简洁的输入界面，配合学习指导
+- **Path**: `/learn/new`
+- **Functionality**:
+  - Form to add new words (word, pronunciation, definition, example sentence)
+  - Learning tips and review schedule explanation
+  - Suggestions for memorization techniques
+- **Design Philosophy**: A clean input interface combined with learning guidance.
 
-### 3. 复习单词 (Review Words)
+### 3. Review Words
 
-- **路径**: `/learn/review`
-- **功能**:
-  - 单词卡片式复习界面
-  - 进度条显示复习进度
-  - 难度反馈系统（简单/一般/困难）
-  - 完成状态页面
-- **设计理念**: 专注的学习体验，减少干扰
+- **Path**: `/learn/review`
+- **Functionality**:
+  - Flashcard-style review interface
+  - Progress bar to show review progress
+  - Difficulty feedback system (Easy/Medium/Hard)
+  - Completion status page
+- **Design Philosophy**: A focused learning experience with minimal distractions.
 
-### 4. 单词管理 (Words Management)
+### 4. Words Management
 
-- **路径**: `/words`
-- **功能**:
-  - 单词库总览和统计
-  - 搜索和筛选功能
-  - 掌握程度可视化
-  - 单词详细信息展示
-- **设计理念**: 全面的单词管理界面
+- **Path**: `/words`
+- **Functionality**:
+  - Overview and statistics of the word library
+  - Search and filter functions
+  - Visualization of mastery level
+  - Detailed word information display
+- **Design Philosophy**: A comprehensive word management interface.
 
-### 5. 学习统计 (Learning Statistics)
+### 5. Learning Statistics
 
-- **路径**: `/stats`
-- **功能**:
-  - 学习成就展示
-  - 本周目标进度跟踪
-  - 掌握程度分布图
-  - 最近学习活动记录
-  - 个性化学习建议
-- **设计理念**: 数据驱动的学习反馈
+- **Path**: `/stats`
+- **Functionality**:
+  - Display of learning achievements
+  - Weekly goal progress tracking
+  - Mastery level distribution chart
+  - Record of recent learning activities
+  - Personalized learning suggestions
+- **Design Philosophy**: Data-driven learning feedback.
 
-## 🧠 艾宾浩斯遗忘曲线算法
+## 🧠 Ebbinghaus Forgetting Curve Algorithm
 
-### 复习时间间隔
+### Review Intervals
 
-- **第1次**: 立即复习
-- **第2次**: 1天后
-- **第3次**: 3天后
-- **第4次**: 7天后
-- **第5次**: 15天后
-- **第6次**: 30天后
+- **1st Review**: Immediately
+- **2nd Review**: After 1 day
+- **3rd Review**: After 3 days
+- **4th Review**: After 7 days
+- **5th Review**: After 15 days
+- **6th Review**: After 30 days
 
-### 难度调整机制
+### Difficulty Adjustment Mechanism
 
-- **简单**: 延长下次复习间隔 (×1.5)
-- **一般**: 保持标准间隔 (×1.0)
-- **困难**: 缩短下次复习间隔 (×0.6)
+- **Easy**: Extend the next review interval (×1.5)
+- **Medium**: Maintain the standard interval (×1.0)
+- **Hard**: Shorten the next review interval (×0.6)
 
-## 🎨 UI/UX 设计原则
+## 🎨 UI/UX Design Principles
 
-### 视觉设计
+### Visual Design
 
-- **色彩方案**: 以蓝色为主色调，辅以绿色（成功）、黄色（警告）、红色（错误）
-- **布局**: 响应式设计，支持桌面端和移动端
-- **字体**: 使用 Geist 字体族，保证良好的可读性
+- **Color Scheme**: Blue as the primary color, supplemented with green (success), yellow (warning), and red (error).
+- **Layout**: Responsive design, supporting both desktop and mobile.
+- **Typography**: Use the Geist font family for good readability.
 
-### 交互设计
+### Interaction Design
 
-- **导航**: 顶部导航栏，清晰的页面层级
-- **反馈**: 及时的用户操作反馈
-- **渐进式披露**: 避免信息过载，按需显示详细信息
+- **Navigation**: Top navigation bar with a clear page hierarchy.
+- **Feedback**: Timely feedback for user actions.
+- **Progressive Disclosure**: Avoid information overload by showing details on demand.
 
-### 用户体验
+### User Experience
 
-- **学习流程**: 简化的学习路径，减少认知负担
-- **成就感**: 通过统计和进度条增强用户成就感
-- **个性化**: 根据用户学习情况提供个性化建议
+- **Learning Flow**: Simplified learning path to reduce cognitive load.
+- **Sense of Achievement**: Enhance user's sense of achievement through statistics and progress bars.
+- **Personalization**: Provide personalized suggestions based on the user's learning situation.
 
-## 🏗️ 技术架构
+## 🏗️ Technical Architecture
 
-### 前端技术栈
+### Frontend Tech Stack
 
-- **框架**: Next.js 15 (App Router)
-- **UI库**: React 19
-- **样式**: Tailwind CSS 4
-- **语言**: TypeScript
-- **代码规范**: ESLint + Prettier
+- **Framework**: Next.js 15 (App Router)
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript
+- **Code Style**: ESLint + Prettier
 
-### 组件结构
+### Component Structure
 
 ```
 app/
 ├── components/
-│   └── Navigation.tsx          # 导航组件
+│   └── Navigation.tsx          # Navigation component
 ├── learn/
 │   ├── new/
-│   │   └── page.tsx           # 学习新单词页面
+│   │   └── page.tsx           # Learn New Words page
 │   └── review/
-│       └── page.tsx           # 复习单词页面
+│       └── page.tsx           # Review Words page
 ├── words/
-│   └── page.tsx               # 单词管理页面
+│   └── page.tsx               # Word Management page
 ├── stats/
-│   └── page.tsx               # 学习统计页面
-├── layout.tsx                 # 根布局
-└── page.tsx                   # 仪表板页面
+│   └── page.tsx               # Learning Stats page
+├── layout.tsx                 # Root layout
+└── page.tsx                   # Dashboard page
 ```
 
-## 📊 数据模型
+## 📊 Data Model
 
-### Word 单词模型
+### Word Model
 
 ```typescript
 interface Word {
   id: number;
-  word: string; // 单词
-  pronunciation: string; // 音标
-  meaning: string; // 中文释义
-  example: string; // 例句
-  addedDate: string; // 添加日期
-  reviewCount: number; // 复习次数
-  masteryLevel: number; // 掌握程度 (0-100)
-  nextReviewDate: string; // 下次复习日期
-  reviewStage: number; // 复习阶段 (1-6)
+  word: string; // The word itself
+  pronunciation: string; // Phonetic transcription
+  meaning: string; // Definition in English
+  example: string; // Example sentence
+  addedDate: string; // Date added
+  reviewCount: number; // Number of reviews
+  masteryLevel: number; // Mastery level (0-100)
+  nextReviewDate: string; // Next review date
+  reviewStage: number; // Review stage (1-6)
 }
 ```
 
-### ReviewSession 复习会话模型
+### ReviewSession Model
 
 ```typescript
 interface ReviewSession {
@@ -148,71 +148,71 @@ interface ReviewSession {
   wordId: number;
   reviewDate: string;
   difficulty: "easy" | "medium" | "hard";
-  responseTime: number; // 响应时间(秒)
-  isCorrect: boolean; // 是否正确
+  responseTime: number; // Response time in seconds
+  isCorrect: boolean; // Was the answer correct
 }
 ```
 
-## 🚀 后续开发计划
+## 🚀 Future Development Plan
 
-### Phase 1: 基础功能完善
+### Phase 1: Core Feature Refinement
 
-- [ ] 数据持久化（localStorage/IndexedDB）
-- [ ] 单词导入/导出功能
-- [ ] 音频播放功能
+- [ ] Data persistence (localStorage/IndexedDB)
+- [ ] Word import/export functionality
+- [ ] Audio playback feature
 
-### Phase 2: 高级功能
+### Phase 2: Advanced Features
 
-- [ ] 单词分类和标签系统
-- [ ] 学习提醒功能
-- [ ] 学习报告导出
+- [ ] Word categorization and tagging system
+- [ ] Learning reminder notifications
+- [ ] Exportable learning reports
 
-### Phase 3: 智能化功能
+### Phase 3: Smart Features
 
-- [ ] 智能复习算法优化
-- [ ] 学习路径推荐
-- [ ] 单词难度评估
+- [ ] Optimization of the smart review algorithm
+- [ ] Recommended learning paths
+- [ ] Word difficulty assessment
 
-### Phase 4: 社交功能
+### Phase 4: Social Features
 
-- [ ] 学习打卡分享
-- [ ] 学习小组功能
-- [ ] 排行榜系统
+- [ ] Shareable learning check-ins
+- [ ] Study group functionality
+- [ ] Leaderboard system
 
-## 🔧 开发环境配置
+## 🔧 Development Environment Setup
 
-### 安装依赖
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 启动开发服务器
+### Start Development Server
 
 ```bash
 npm run dev
 ```
 
-### 代码格式化
+### Format Code
 
 ```bash
 npm run format
 ```
 
-### 代码检查
+### Lint Code
 
 ```bash
 npm run lint
 ```
 
-## 📝 贡献指南
+## 📝 Contribution Guide
 
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

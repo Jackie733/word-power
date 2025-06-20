@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedContainer } from "@/components/animated-container";
 
 export default function Dashboard() {
-  // 模拟数据 - 后续会从数据库获取
+  // Mock data - will be fetched from the database later
   const todayStats = {
     newWords: 12,
     reviewWords: 8,
@@ -23,40 +23,40 @@ export default function Dashboard() {
   };
 
   const upcomingReviews = [
-    { id: 1, word: "serendipity", nextReview: "今天", stage: 1 },
-    { id: 2, word: "ubiquitous", nextReview: "今天", stage: 2 },
-    { id: 3, word: "ephemeral", nextReview: "明天", stage: 3 },
+    { id: 1, word: "serendipity", nextReview: "Today", stage: 1 },
+    { id: 2, word: "ubiquitous", nextReview: "Today", stage: 2 },
+    { id: 3, word: "ephemeral", nextReview: "Tomorrow", stage: 3 },
   ];
 
   const quickActions = [
     {
       href: "/learn/new",
-      title: "学习新单词",
-      description: "添加并学习新的单词",
+      title: "Learn New Words",
+      description: "Add and learn new words",
       icon: BookOpen,
       color: "bg-gradient-to-r from-blue-500 to-blue-600",
       emoji: "📚",
     },
     {
       href: "/learn/review",
-      title: "复习单词",
-      description: "根据遗忘曲线复习单词",
+      title: "Review Words",
+      description: "Review words based on the forgetting curve",
       icon: RotateCcw,
       color: "bg-gradient-to-r from-green-500 to-green-600",
       emoji: "🔄",
     },
     {
       href: "/words",
-      title: "单词管理",
-      description: "查看和管理所有单词",
+      title: "Manage Words",
+      description: "View and manage all your words",
       icon: Library,
       color: "bg-gradient-to-r from-purple-500 to-purple-600",
       emoji: "📖",
     },
     {
       href: "/stats",
-      title: "学习统计",
-      description: "查看学习进度和统计",
+      title: "Learning Stats",
+      description: "Check your learning progress and statistics",
       icon: BarChart3,
       color: "bg-gradient-to-r from-orange-500 to-orange-600",
       emoji: "📊",
@@ -66,7 +66,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
-        {/* 页面标题 */}
+        {/* Page Title */}
         <AnimatedContainer variant="slideDown" className="mb-8">
           <motion.h1
             className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2"
@@ -82,49 +82,50 @@ export default function Dashboard() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            基于艾宾浩斯遗忘曲线的英语单词学习系统
+            English word learning system based on the Ebbinghaus forgetting
+            curve
           </motion.p>
         </AnimatedContainer>
 
-        {/* 今日统计卡片 */}
+        {/* Today's Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
-            title="新学单词"
+            title="New Words"
             value={todayStats.newWords}
             icon={<BookOpen className="w-6 h-6" />}
             delay={0}
             trend="up"
-            trendValue="+3 较昨日"
+            trendValue="+3 vs yesterday"
           />
           <StatCard
-            title="复习单词"
+            title="Words to Review"
             value={todayStats.reviewWords}
             icon={<RotateCcw className="w-6 h-6" />}
             delay={0.1}
             trend="neutral"
-            trendValue="按计划进行"
+            trendValue="On schedule"
           />
           <StatCard
-            title="已完成"
+            title="Completed"
             value={todayStats.completedWords}
             icon={<TrendingUp className="w-6 h-6" />}
             delay={0.2}
             trend="up"
-            trendValue="+5 较昨日"
+            trendValue="+5 vs yesterday"
           />
           <StatCard
-            title="正确率"
+            title="Accuracy"
             value={`${todayStats.accuracy}%`}
             icon="🎯"
             delay={0.3}
             trend="up"
-            trendValue="+2% 较昨日"
+            trendValue="+2% vs yesterday"
           />
         </div>
 
-        {/* 主要操作区域 */}
+        {/* Main Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* 快速开始 */}
+          {/* Quick Start */}
           <AnimatedContainer
             variant="slideUp"
             delay={0.4}
@@ -144,7 +145,7 @@ export default function Dashboard() {
                   >
                     ⚡
                   </motion.span>
-                  今日学习
+                  Today&apos;s Learning
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -190,12 +191,12 @@ export default function Dashboard() {
             </Card>
           </AnimatedContainer>
 
-          {/* 待复习单词 */}
+          {/* Words to Review */}
           <AnimatedContainer variant="slideUp" delay={0.6}>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  📋 待复习单词
+                  📋 Words to Review
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -216,7 +217,7 @@ export default function Dashboard() {
                         </p>
                       </div>
                       <Badge variant="secondary" className="text-xs">
-                        第{review.stage}次
+                        Stage {review.stage}
                       </Badge>
                     </motion.div>
                   ))}
@@ -231,7 +232,7 @@ export default function Dashboard() {
                     variant="outline"
                     className="w-full mt-4 hover:bg-primary hover:text-primary-foreground transition-colors"
                   >
-                    <Link href="/learn/review">查看全部</Link>
+                    <Link href="/learn/review">View All</Link>
                   </Button>
                 </motion.div>
               </CardContent>

@@ -21,34 +21,35 @@ interface Word {
 }
 
 export default function ReviewWords() {
-  // 模拟待复习的单词数据
+  // Mock data for words to review
   const [reviewWords] = useState<Word[]>([
     {
       id: 1,
       word: "serendipity",
       pronunciation: "/ˌserənˈdɪpəti/",
-      meaning: "意外发现有价值或令人愉快的事物的能力",
+      meaning:
+        "The faculty of making happy and unexpected discoveries by accident.",
       example: "It was pure serendipity that led me to find this book.",
       reviewStage: 2,
-      nextReviewDate: "今天",
+      nextReviewDate: "Today",
     },
     {
       id: 2,
       word: "ubiquitous",
       pronunciation: "/juːˈbɪkwɪtəs/",
-      meaning: "无处不在的，普遍存在的",
+      meaning: "Present, appearing, or found everywhere.",
       example: "Smartphones have become ubiquitous in modern society.",
       reviewStage: 1,
-      nextReviewDate: "今天",
+      nextReviewDate: "Today",
     },
     {
       id: 3,
       word: "ephemeral",
       pronunciation: "/ɪˈfem(ə)rəl/",
-      meaning: "短暂的，瞬息的",
+      meaning: "Lasting for a very short time.",
       example: "The beauty of cherry blossoms is ephemeral.",
       reviewStage: 3,
-      nextReviewDate: "今天",
+      nextReviewDate: "Today",
     },
   ]);
 
@@ -59,13 +60,13 @@ export default function ReviewWords() {
   const remainingWords = reviewWords.length - completedWords.length;
 
   const handleReviewResult = (difficulty: "easy" | "medium" | "hard") => {
-    // 记录复习结果
-    console.log(`单词 ${currentWord.word} 复习结果: ${difficulty}`);
+    // Record review result
+    console.log(`Review result for word ${currentWord.word}: ${difficulty}`);
 
-    // 标记为已完成
+    // Mark as completed
     setCompletedWords(prev => [...prev, currentWord.id]);
 
-    // 移动到下一个单词
+    // Move to the next word
     if (currentWordIndex < reviewWords.length - 1) {
       setCurrentWordIndex(prev => prev + 1);
     }
@@ -82,14 +83,16 @@ export default function ReviewWords() {
         <div className="text-center">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            今天没有需要复习的单词
+            No words to review today
           </h1>
-          <p className="text-gray-600 mb-6">您已经完成了所有的复习任务！</p>
+          <p className="text-gray-600 mb-6">
+            You have completed all review tasks!
+          </p>
           <Link
             href="/"
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            返回仪表板
+            Back to Dashboard
           </Link>
         </div>
       </div>
@@ -114,7 +117,7 @@ export default function ReviewWords() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            复习完成！
+            Review Complete!
           </motion.h1>
           <motion.p
             className="text-muted-foreground mb-6"
@@ -122,7 +125,8 @@ export default function ReviewWords() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            您已经完成了今天的所有复习任务，共复习了 {reviewWords.length} 个单词
+            You have completed all review tasks for today, reviewing{" "}
+            {reviewWords.length} words in total.
           </motion.p>
           <motion.div
             className="flex gap-4 justify-center"
@@ -131,10 +135,10 @@ export default function ReviewWords() {
             transition={{ delay: 0.8, duration: 0.5 }}
           >
             <Button onClick={resetReview} size="lg">
-              重新复习
+              Review Again
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/">返回仪表板</Link>
+              <Link href="/">Back to Dashboard</Link>
             </Button>
           </motion.div>
         </AnimatedContainer>
@@ -145,13 +149,13 @@ export default function ReviewWords() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
-        {/* 页面标题和进度 */}
+        {/* Page Title and Progress */}
         <AnimatedContainer variant="slideDown" className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/" className="flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
-                返回仪表板
+                Back to Dashboard
               </Link>
             </Button>
             <motion.div
@@ -162,11 +166,11 @@ export default function ReviewWords() {
             >
               <div className="flex items-center gap-1">
                 <Target className="w-4 h-4" />
-                进度: {completedWords.length + 1} / {reviewWords.length}
+                Progress: {completedWords.length + 1} / {reviewWords.length}
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                剩余: {remainingWords}
+                Remaining: {remainingWords}
               </div>
             </motion.div>
           </div>
@@ -176,7 +180,7 @@ export default function ReviewWords() {
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            复习单词
+            Review Words
           </motion.h1>
           <motion.p
             className="text-muted-foreground"
@@ -184,16 +188,16 @@ export default function ReviewWords() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            还有 {remainingWords} 个单词需要复习
+            There are {remainingWords} words left to review.
           </motion.p>
         </AnimatedContainer>
 
-        {/* 进度条 */}
+        {/* Progress Bar */}
         <AnimatedContainer variant="slideUp" delay={0.3} className="mb-8">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">复习进度</span>
+                <span className="text-sm font-medium">Review Progress</span>
                 <span className="text-sm text-muted-foreground">
                   {Math.round(
                     (completedWords.length / reviewWords.length) * 100
@@ -209,7 +213,7 @@ export default function ReviewWords() {
           </Card>
         </AnimatedContainer>
 
-        {/* 单词卡片 */}
+        {/* Word Card */}
         <AnimatedContainer
           variant="scale"
           delay={0.5}
@@ -234,12 +238,12 @@ export default function ReviewWords() {
           </AnimatePresence>
         </AnimatedContainer>
 
-        {/* 复习说明 */}
+        {/* Review Instructions */}
         <AnimatedContainer variant="slideUp" delay={0.7} className="mt-8">
           <Card className="border-blue-200 bg-blue-50/50">
             <CardHeader>
               <CardTitle className="text-blue-800 flex items-center gap-2">
-                💡 复习说明
+                💡 Review Instructions
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -249,22 +253,24 @@ export default function ReviewWords() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.8, duration: 0.3 }}
                 >
-                  • <strong>简单</strong>
-                  ：您很容易记起这个单词，下次复习间隔会延长
+                  • <strong>Easy</strong>: You recall this word easily. The next
+                  review interval will be extended.
                 </motion.li>
                 <motion.li
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.9, duration: 0.3 }}
                 >
-                  • <strong>一般</strong>：您能记起但需要思考，按正常间隔复习
+                  • <strong>Medium</strong>: You recall the word, but it
+                  requires some thought. The review interval will be normal.
                 </motion.li>
                 <motion.li
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.0, duration: 0.3 }}
                 >
-                  • <strong>困难</strong>：您很难记起这个单词，会缩短复习间隔
+                  • <strong>Hard</strong>: You have difficulty recalling this
+                  word. The review interval will be shortened.
                 </motion.li>
               </ul>
             </CardContent>

@@ -21,26 +21,26 @@ export default function LearnNewWords() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // 这里后续会连接到数据库
-    console.log("添加新单词:", { word, pronunciation, meaning, example });
+    // This will be connected to the database later
+    console.log("Adding new word:", { word, pronunciation, meaning, example });
 
-    // 模拟API调用
+    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // 重置表单
+    // Reset form
     setWord("");
     setPronunciation("");
     setMeaning("");
     setExample("");
     setIsSubmitting(false);
 
-    alert("单词添加成功！");
+    alert("Word added successfully!");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
-        {/* 页面标题 */}
+        {/* Page Title */}
         <AnimatedContainer variant="slideDown" className="mb-8">
           <motion.div
             className="flex items-center mb-4"
@@ -51,7 +51,7 @@ export default function LearnNewWords() {
             <Button variant="ghost" size="sm" asChild>
               <Link href="/" className="flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
-                返回仪表板
+                Back to Dashboard
               </Link>
             </Button>
           </motion.div>
@@ -61,7 +61,7 @@ export default function LearnNewWords() {
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            学习新单词
+            Learn New Words
           </motion.h1>
           <motion.p
             className="text-muted-foreground"
@@ -69,18 +69,18 @@ export default function LearnNewWords() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            添加新的英语单词到您的学习库
+            Add new English words to your learning library
           </motion.p>
         </AnimatedContainer>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* 添加单词表单 */}
+          {/* Add Word Form */}
           <AnimatedContainer variant="slideUp" delay={0.3}>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
-                  添加新单词
+                  Add a New Word
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -94,14 +94,14 @@ export default function LearnNewWords() {
                       htmlFor="word"
                       className="block text-sm font-medium mb-2"
                     >
-                      单词 *
+                      Word *
                     </label>
                     <Input
                       type="text"
                       id="word"
                       value={word}
                       onChange={e => setWord(e.target.value)}
-                      placeholder="输入英语单词"
+                      placeholder="Enter an English word"
                       required
                       className="transition-all duration-200"
                     />
@@ -118,14 +118,14 @@ export default function LearnNewWords() {
                         htmlFor="pronunciation"
                         className="block text-sm font-medium mb-2"
                       >
-                        音标
+                        Pronunciation
                       </label>
                       <Input
                         type="text"
                         id="pronunciation"
                         value={pronunciation}
                         onChange={e => setPronunciation(e.target.value)}
-                        placeholder="如：/ˈserendɪpɪti/"
+                        placeholder="e.g., /ˌserənˈdɪpəti/"
                         className="transition-all duration-200"
                       />
                     </div>
@@ -148,14 +148,14 @@ export default function LearnNewWords() {
                       htmlFor="meaning"
                       className="block text-sm font-medium mb-2"
                     >
-                      中文释义 *
+                      Definition *
                     </label>
                     <Textarea
                       id="meaning"
                       value={meaning}
                       onChange={e => setMeaning(e.target.value)}
                       rows={3}
-                      placeholder="输入中文释义"
+                      placeholder="Enter the definition"
                       required
                       className="transition-all duration-200 resize-none"
                     />
@@ -170,14 +170,14 @@ export default function LearnNewWords() {
                       htmlFor="example"
                       className="block text-sm font-medium mb-2"
                     >
-                      例句
+                      Example Sentence
                     </label>
                     <Textarea
                       id="example"
                       value={example}
                       onChange={e => setExample(e.target.value)}
                       rows={3}
-                      placeholder="输入英语例句"
+                      placeholder="Enter an example sentence"
                       className="transition-all duration-200 resize-none"
                     />
                   </motion.div>
@@ -206,7 +206,7 @@ export default function LearnNewWords() {
                       ) : (
                         <BookOpen className="w-4 h-4 mr-2" />
                       )}
-                      {isSubmitting ? "添加中..." : "添加单词"}
+                      {isSubmitting ? "Adding..." : "Add Word"}
                     </Button>
                   </motion.div>
                 </form>
@@ -214,13 +214,13 @@ export default function LearnNewWords() {
             </Card>
           </AnimatedContainer>
 
-          {/* 学习提示 */}
+          {/* Learning Tips */}
           <div className="space-y-6">
             <AnimatedContainer variant="slideUp" delay={0.5}>
               <Card className="border-blue-200 bg-blue-50/50">
                 <CardHeader>
                   <CardTitle className="text-blue-800 flex items-center gap-2">
-                    📚 学习提示
+                    📚 Learning Tips
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -230,28 +230,30 @@ export default function LearnNewWords() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6, duration: 0.3 }}
                     >
-                      • 添加单词后会立即开始第一次学习
+                      • After adding a word, the first learning session will
+                      start immediately
                     </motion.li>
                     <motion.li
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7, duration: 0.3 }}
                     >
-                      • 系统会根据艾宾浩斯遗忘曲线安排复习
+                      • The system will schedule reviews based on the Ebbinghaus
+                      forgetting curve
                     </motion.li>
                     <motion.li
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.8, duration: 0.3 }}
                     >
-                      • 建议每天学习 10-20 个新单词
+                      • It is recommended to learn 10-20 new words daily
                     </motion.li>
                     <motion.li
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.9, duration: 0.3 }}
                     >
-                      • 可以添加个人化的例句帮助记忆
+                      • You can add personalized example sentences to aid memory
                     </motion.li>
                   </ul>
                 </CardContent>
@@ -262,20 +264,20 @@ export default function LearnNewWords() {
               <Card className="border-green-200 bg-green-50/50">
                 <CardHeader>
                   <CardTitle className="text-green-800 flex items-center gap-2">
-                    🔄 复习计划
+                    🔄 Review Plan
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2 text-green-700">
-                    <p>新单词的复习时间安排：</p>
+                    <p>Review schedule for new words:</p>
                     <ul className="space-y-1 ml-4">
                       {[
-                        "第1次：立即复习",
-                        "第2次：1天后",
-                        "第3次：3天后",
-                        "第4次：7天后",
-                        "第5次：15天后",
-                        "第6次：30天后",
+                        "1st: Review immediately",
+                        "2nd: After 1 day",
+                        "3rd: After 3 days",
+                        "4th: After 7 days",
+                        "5th: After 15 days",
+                        "6th: After 30 days",
                       ].map((item, index) => (
                         <motion.li
                           key={index}
@@ -300,16 +302,16 @@ export default function LearnNewWords() {
                 <CardHeader>
                   <CardTitle className="text-yellow-800 flex items-center gap-2">
                     <Lightbulb className="w-5 h-5" />
-                    记忆技巧
+                    Memory Tips
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-yellow-700">
                     {[
-                      "联想记忆：将单词与已知事物关联",
-                      "词根词缀：学习常见的前缀和后缀",
-                      "情境记忆：在具体语境中记忆单词",
-                      "多感官记忆：听、说、读、写结合",
+                      "Association: Connect the word with something you already know",
+                      "Root words: Learn common prefixes and suffixes",
+                      "Contextual memory: Memorize words in specific contexts",
+                      "Multi-sensory memory: Combine listening, speaking, reading, and writing",
                     ].map((tip, index) => (
                       <motion.li
                         key={index}

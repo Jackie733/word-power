@@ -50,7 +50,7 @@ export function WordCard({
         transition={{ duration: 0.6, ease: "easeInOut" }}
         onClick={!isFlipped ? handleFlip : undefined}
       >
-        {/* 正面 - 单词 */}
+        {/* Front - Word */}
         <Card className="absolute inset-0 backface-hidden">
           <CardContent className="flex flex-col items-center justify-center h-full p-8 text-center">
             <motion.div
@@ -74,13 +74,13 @@ export function WordCard({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.3 }}
               >
-                <p className="text-sm">点击查看释义</p>
+                <p className="text-sm">Click to see the definition</p>
               </motion.div>
             </motion.div>
           </CardContent>
         </Card>
 
-        {/* 背面 - 释义 */}
+        {/* Back - Definition */}
         <Card className="absolute inset-0 backface-hidden rotate-y-180">
           <CardContent className="flex flex-col justify-between h-full p-8">
             <AnimatePresence>
@@ -104,7 +104,7 @@ export function WordCard({
                   <div className="space-y-4">
                     <div>
                       <h4 className="font-medium text-sm text-muted-foreground mb-1">
-                        释义
+                        Definition
                       </h4>
                       <p className="text-lg">{meaning}</p>
                     </div>
@@ -112,7 +112,7 @@ export function WordCard({
                     {example && (
                       <div>
                         <h4 className="font-medium text-sm text-muted-foreground mb-1">
-                          例句
+                          Example
                         </h4>
                         <p className="text-sm italic text-muted-foreground">
                           {example}
@@ -136,21 +136,21 @@ export function WordCard({
                   variant="outline"
                   className="text-red-600 border-red-200 hover:bg-red-50"
                 >
-                  困难
+                  Hard
                 </Button>
                 <Button
                   onClick={() => handleAnswer("medium")}
                   variant="outline"
                   className="text-yellow-600 border-yellow-200 hover:bg-yellow-50"
                 >
-                  一般
+                  Medium
                 </Button>
                 <Button
                   onClick={() => handleAnswer("easy")}
                   variant="outline"
                   className="text-green-600 border-green-200 hover:bg-green-50"
                 >
-                  简单
+                  Easy
                 </Button>
               </motion.div>
             )}
@@ -158,7 +158,7 @@ export function WordCard({
         </Card>
       </motion.div>
 
-      {/* 翻转提示 */}
+      {/* Flip Hint */}
       {isFlipped && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -172,7 +172,7 @@ export function WordCard({
             className="text-muted-foreground"
           >
             <Eye className="w-4 h-4 mr-2" />
-            再次查看单词
+            View Word Again
           </Button>
         </motion.div>
       )}

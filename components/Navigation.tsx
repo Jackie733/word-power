@@ -19,11 +19,11 @@ const Navigation = () => {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", label: "仪表板", icon: Home },
-    { href: "/learn/new", label: "学新词", icon: BookOpen },
-    { href: "/learn/review", label: "复习", icon: RotateCcw },
-    { href: "/words", label: "单词库", icon: Library },
-    { href: "/stats", label: "统计", icon: BarChart3 },
+    { href: "/", label: "Dashboard", icon: Home },
+    { href: "/learn/new", label: "Learn", icon: BookOpen },
+    { href: "/learn/review", label: "Review", icon: RotateCcw },
+    { href: "/words", label: "Words", icon: Library },
+    { href: "/stats", label: "Stats", icon: BarChart3 },
   ];
 
   return (
@@ -98,7 +98,7 @@ const Navigation = () => {
               );
             })}
 
-            {/* 主题切换按钮 */}
+            {/* Theme Toggle Button */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -108,7 +108,7 @@ const Navigation = () => {
             </motion.div>
           </div>
 
-          {/* 移动端菜单和主题切换 */}
+          {/* Mobile Menu and Theme Toggle */}
           <div className="md:hidden flex items-center space-x-2">
             <motion.div
               initial={{ opacity: 0, x: 20 }}

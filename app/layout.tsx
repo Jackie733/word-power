@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Word Power - 英语单词学习系统",
-  description: "基于艾宾浩斯遗忘曲线的英语单词学习应用",
+  title: "Word Power - English Word Learning System",
+  description:
+    "An English word learning application based on the Ebbinghaus forgetting curve.",
 };
 
 export default function RootLayout({
@@ -25,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html lang="en-US" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

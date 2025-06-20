@@ -19,7 +19,7 @@ import { AnimatedContainer } from "@/components/animated-container";
 import { StatCard } from "@/components/ui/stat-card";
 
 export default function StatsPage() {
-  // 模拟统计数据
+  // Mock stats data
   const stats = {
     totalWords: 25,
     masteredWords: 8,
@@ -41,10 +41,10 @@ export default function StatsPage() {
   ];
 
   const masteryDistribution = [
-    { level: "已掌握 (80-100%)", count: 8, color: "bg-green-500" },
-    { level: "良好 (60-79%)", count: 7, color: "bg-blue-500" },
-    { level: "一般 (40-59%)", count: 6, color: "bg-yellow-500" },
-    { level: "待加强 (0-39%)", count: 4, color: "bg-red-500" },
+    { level: "Mastered (80-100%)", count: 8, color: "bg-green-500" },
+    { level: "Good (60-79%)", count: 7, color: "bg-blue-500" },
+    { level: "Okay (40-59%)", count: 6, color: "bg-yellow-500" },
+    { level: "Needs Improvement (0-39%)", count: 4, color: "bg-red-500" },
   ];
 
   const getAccuracyBadgeVariant = (
@@ -58,7 +58,7 @@ export default function StatsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       <div className="container mx-auto px-4 py-8">
-        {/* 页面标题 */}
+        {/* Page Title */}
         <AnimatedContainer variant="fadeIn">
           <div className="mb-8">
             <motion.div
@@ -75,7 +75,7 @@ export default function StatsPage() {
               >
                 <Link href="/" className="text-blue-600 hover:text-blue-800">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  返回仪表板
+                  Back to Dashboard
                 </Link>
               </Button>
             </motion.div>
@@ -86,17 +86,19 @@ export default function StatsPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2">
-                学习统计
+                Learning Statistics
               </h1>
-              <p className="text-slate-600 text-lg">查看您的学习进度和成就</p>
+              <p className="text-slate-600 text-lg">
+                Review your learning progress and achievements
+              </p>
             </motion.div>
           </div>
         </AnimatedContainer>
 
-        {/* 主要统计指标 */}
+        {/* Main Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
-            title="总单词数"
+            title="Total Words"
             value={stats.totalWords.toString()}
             icon={<BookOpen className="h-6 w-6" />}
             trend="up"
@@ -104,24 +106,26 @@ export default function StatsPage() {
             className="delay-0"
           />
           <StatCard
-            title="已掌握"
+            title="Mastered"
             value={stats.masteredWords.toString()}
-            description={`${Math.round((stats.masteredWords / stats.totalWords) * 100)}% 掌握率`}
+            description={`${Math.round(
+              (stats.masteredWords / stats.totalWords) * 100
+            )}% mastery`}
             icon={<CheckCircle className="h-6 w-6" />}
             trend="up"
             trendValue="+3"
             className="delay-100"
           />
           <StatCard
-            title="连续学习"
-            value={`${stats.streakDays} 天`}
+            title="Streak"
+            value={`${stats.streakDays} days`}
             icon={<Flame className="h-6 w-6" />}
             trend="up"
             trendValue="+2"
             className="delay-200"
           />
           <StatCard
-            title="平均正确率"
+            title="Average Accuracy"
             value={`${stats.averageAccuracy}%`}
             icon={<Target className="h-6 w-6" />}
             trend="up"
@@ -131,20 +135,20 @@ export default function StatsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* 本周目标 */}
+          {/* Weekly Goal */}
           <AnimatedContainer variant="slideUp" delay={0.2}>
             <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
-                  本周学习目标
+                  This Week&apos;s Goal
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-medium text-slate-700">
-                      复习进度
+                      Review Progress
                     </span>
                     <span className="text-sm font-bold text-slate-600">
                       {stats.weeklyProgress} / {stats.weeklyGoal}
@@ -158,9 +162,9 @@ export default function StatsPage() {
                     className="h-3"
                   />
                   <p className="text-xs text-slate-500 mt-2">
-                    还需复习{" "}
-                    {Math.max(0, stats.weeklyGoal - stats.weeklyProgress)}{" "}
-                    个单词完成本周目标
+                    Need to review{" "}
+                    {Math.max(0, stats.weeklyGoal - stats.weeklyProgress)} more
+                    words to complete this week&apos;s goal
                   </p>
                 </div>
 
@@ -173,7 +177,7 @@ export default function StatsPage() {
                     <div className="text-2xl font-bold text-blue-600">
                       {stats.todayReviewed}
                     </div>
-                    <div className="text-sm text-blue-600">今日复习</div>
+                    <div className="text-sm text-blue-600">Reviewed Today</div>
                   </motion.div>
                   <motion.div
                     className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200"
@@ -183,20 +187,20 @@ export default function StatsPage() {
                     <div className="text-2xl font-bold text-green-600">
                       {stats.totalReviews}
                     </div>
-                    <div className="text-sm text-green-600">总复习次数</div>
+                    <div className="text-sm text-green-600">Total Reviews</div>
                   </motion.div>
                 </div>
               </CardContent>
             </Card>
           </AnimatedContainer>
 
-          {/* 掌握程度分布 */}
+          {/* Mastery Distribution */}
           <AnimatedContainer variant="slideUp" delay={0.3}>
             <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
-                  掌握程度分布
+                  Mastery Distribution
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -241,13 +245,13 @@ export default function StatsPage() {
           </AnimatedContainer>
         </div>
 
-        {/* 最近活动 */}
+        {/* Recent Activity */}
         <AnimatedContainer variant="slideUp" delay={0.4} className="mt-8">
           <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                最近学习活动
+                Recent Learning Activity
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -256,16 +260,16 @@ export default function StatsPage() {
                   <thead>
                     <tr className="border-b border-slate-200">
                       <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        日期
+                        Date
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        新增单词
+                        New Words
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        复习次数
+                        Reviews
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-slate-600">
-                        正确率
+                        Accuracy
                       </th>
                     </tr>
                   </thead>
@@ -279,7 +283,7 @@ export default function StatsPage() {
                         transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                       >
                         <td className="py-3 px-4 text-slate-700 font-medium">
-                          {new Date(activity.date).toLocaleDateString("zh-CN", {
+                          {new Date(activity.date).toLocaleDateString("en-US", {
                             month: "short",
                             day: "numeric",
                           })}
