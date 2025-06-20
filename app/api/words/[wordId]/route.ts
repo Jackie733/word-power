@@ -6,8 +6,9 @@ const prisma = new PrismaClient();
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { wordId: string } }
+  props: { params: Promise<{ wordId: string }> }
 ) {
+  const params = await props.params;
   const { wordId } = params;
 
   if (!wordId) {

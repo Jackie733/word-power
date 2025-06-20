@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { WordCard } from "@/components/ui/word-card";
+import { ReviewCard } from "@/components/ui/review-card";
 import { AnimatedContainer } from "@/components/animated-container";
 
 interface Word {
@@ -230,7 +230,7 @@ export default function ReviewWords() {
               exit={{ opacity: 0, scale: 1.1 }}
               transition={{ duration: 0.4 }}
             >
-              <WordCard
+              <ReviewCard
                 word={currentWord.word}
                 pronunciation={currentWord.pronunciation}
                 meaning={currentWord.meaning}
