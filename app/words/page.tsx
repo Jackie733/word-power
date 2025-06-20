@@ -143,7 +143,7 @@ export default function WordsManagement() {
   const learningWords = words.filter(w => w.masteryLevel < 80).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
+    <div className="bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
         {/* Page Title */}
         <AnimatedContainer variant="fadeIn">
@@ -176,7 +176,7 @@ export default function WordsManagement() {
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2">
                   Word Management
                 </h1>
-                <p className="text-slate-600 text-lg">
+                <p className="text-muted-foreground text-lg">
                   Manage your word library, {totalWords} words in total
                 </p>
               </motion.div>
@@ -230,7 +230,7 @@ export default function WordsManagement() {
 
         {/* Search and Filter */}
         <AnimatedContainer variant="slideUp" className="mb-8">
-          <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+          <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Filter className="h-5 w-5" />
@@ -262,7 +262,7 @@ export default function WordsManagement() {
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value as typeof sortBy)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-background"
                   >
                     <option value="addedDate">By Date Added</option>
                     <option value="word">Alphabetically</option>
@@ -279,7 +279,7 @@ export default function WordsManagement() {
                     onChange={e =>
                       setFilterBy(e.target.value as typeof filterBy)
                     }
-                    className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-background"
                   >
                     <option value="all">All Words</option>
                     <option value="learning">Learning</option>
@@ -301,7 +301,7 @@ export default function WordsManagement() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <Card className="shadow-md hover:shadow-lg transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm group">
+                <Card className="shadow-md hover:shadow-lg transition-all duration-300 border-0 bg-card/80 backdrop-blur-sm group">
                   <CardContent className="p-6">
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                       <div className="flex-1">
@@ -350,7 +350,7 @@ export default function WordsManagement() {
           </div>
 
           {filteredAndSortedWords.length === 0 && (
-            <Card className="shadow-md border-0 bg-white/80 backdrop-blur-sm">
+            <Card className="shadow-md border-0 bg-card/80 backdrop-blur-sm">
               <CardContent className="p-12 text-center">
                 <div className="text-slate-400 mb-4">
                   <BookOpen className="h-12 w-12 mx-auto" />

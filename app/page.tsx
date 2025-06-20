@@ -6,12 +6,14 @@ import {
   Library,
   BarChart3,
   TrendingUp,
+  MoveRight,
 } from "lucide-react";
 import { StatCard } from "@/components/ui/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AnimatedContainer } from "@/components/animated-container";
+import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
   // Mock data - will be fetched from the database later
@@ -34,37 +36,33 @@ export default function Dashboard() {
       title: "Learn New Words",
       description: "Add and learn new words",
       icon: BookOpen,
-      color: "bg-gradient-to-r from-blue-500 to-blue-600",
-      emoji: "📚",
+      color: "text-blue-500",
     },
     {
       href: "/learn/review",
       title: "Review Words",
       description: "Review words based on the forgetting curve",
       icon: RotateCcw,
-      color: "bg-gradient-to-r from-green-500 to-green-600",
-      emoji: "🔄",
+      color: "text-green-500",
     },
     {
       href: "/words",
       title: "Manage Words",
       description: "View and manage all your words",
       icon: Library,
-      color: "bg-gradient-to-r from-purple-500 to-purple-600",
-      emoji: "📖",
+      color: "text-purple-500",
     },
     {
       href: "/stats",
       title: "Learning Stats",
       description: "Check your learning progress and statistics",
       icon: BarChart3,
-      color: "bg-gradient-to-r from-orange-500 to-orange-600",
-      emoji: "📊",
+      color: "text-orange-500",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+    <div className="bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
         {/* Page Title */}
         <AnimatedContainer variant="slideDown" className="mb-8">
@@ -92,6 +90,7 @@ export default function Dashboard() {
           <StatCard
             title="New Words"
             value={todayStats.newWords}
+            description="Words learned today"
             icon={<BookOpen className="w-6 h-6" />}
             delay={0}
             trend="up"
@@ -100,6 +99,7 @@ export default function Dashboard() {
           <StatCard
             title="Words to Review"
             value={todayStats.reviewWords}
+            description="Words due for review"
             icon={<RotateCcw className="w-6 h-6" />}
             delay={0.1}
             trend="neutral"
@@ -108,6 +108,7 @@ export default function Dashboard() {
           <StatCard
             title="Completed"
             value={todayStats.completedWords}
+            description="Words reviewed today"
             icon={<TrendingUp className="w-6 h-6" />}
             delay={0.2}
             trend="up"
@@ -116,6 +117,7 @@ export default function Dashboard() {
           <StatCard
             title="Accuracy"
             value={`${todayStats.accuracy}%`}
+            description="Today's review accuracy"
             icon="🎯"
             delay={0.3}
             trend="up"
@@ -155,32 +157,35 @@ export default function Dashboard() {
                     return (
                       <motion.div
                         key={action.href}
+                        className="h-full"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.5 + index * 0.1, duration: 0.3 }}
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.98 }}
                       >
                         <Button
                           asChild
-                          className={`${action.color} h-auto p-6 text-left flex-col items-start space-y-2 hover:shadow-lg transition-all duration-300`}
+                          variant="outline"
+                          className="w-full h-full p-6 text-left flex-col items-start justify-between space-y-2 group hover:bg-muted/50 transition-all duration-300"
                         >
                           <Link href={action.href}>
-                            <div className="flex items-center gap-3 mb-2">
-                              <motion.span
-                                className="text-2xl"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                              >
-                                {action.emoji}
-                              </motion.span>
-                              <Icon className="w-5 h-5" />
+                            <div>
+                              <Icon
+                                className={cn(
+                                  "w-8 h-8 mb-2 transition-colors",
+                                  action.color
+                                )}
+                              />
+                              <h3 className="text-lg font-semibold">
+                                {action.title}
+                              </h3>
+                              <p className="text-muted-foreground text-sm">
+                                {action.description}
+                              </p>
                             </div>
-                            <h3 className="text-lg font-semibold text-white">
-                              {action.title}
-                            </h3>
-                            <p className="text-white/80 text-sm">
-                              {action.description}
-                            </p>
+                            <div className="flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                              Go
+                              <MoveRight className="w-4 h-4 ml-1" />
+                            </div>
                           </Link>
                         </Button>
                       </motion.div>

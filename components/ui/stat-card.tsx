@@ -53,14 +53,14 @@ export function StatCard({
       whileTap={{ scale: 0.98 }}
     >
       <Card className={cn("overflow-hidden", className)}>
-        <CardContent className="p-6">
+        <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground">
+              <p className="text-xs font-semibold text-muted-foreground">
                 {title}
               </p>
               <motion.p
-                className="text-2xl font-bold"
+                className="text-xl font-bold"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: delay + 0.2, duration: 0.3 }}

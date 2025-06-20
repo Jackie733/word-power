@@ -3,10 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, Target, Clock } from "lucide-react";
+import { ArrowLeft, Target, Clock, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { WordCard } from "@/components/ui/word-card";
 import { AnimatedContainer } from "@/components/animated-container";
 
@@ -79,29 +85,26 @@ export default function ReviewWords() {
 
   if (reviewWords.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
+      <div className="flex flex-grow items-center justify-center bg-background">
+        <AnimatedContainer variant="scale" className="text-center">
           <div className="text-6xl mb-4">🎉</div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl font-bold text-foreground mb-2">
             No words to review today
           </h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-muted-foreground mb-6">
             You have completed all review tasks!
           </p>
-          <Link
-            href="/"
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Back to Dashboard
-          </Link>
-        </div>
+          <Button asChild>
+            <Link href="/">Back to Dashboard</Link>
+          </Button>
+        </AnimatedContainer>
       </div>
     );
   }
 
   if (completedWords.length === reviewWords.length) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center">
+      <div className="bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center flex-grow">
         <AnimatedContainer variant="scale" className="text-center">
           <motion.div
             className="text-6xl mb-4"
@@ -147,7 +150,7 @@ export default function ReviewWords() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+    <div className="bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
         {/* Page Title and Progress */}
         <AnimatedContainer variant="slideDown" className="mb-8">
@@ -239,42 +242,37 @@ export default function ReviewWords() {
         </AnimatedContainer>
 
         {/* Review Instructions */}
-        <AnimatedContainer variant="slideUp" delay={0.7} className="mt-8">
-          <Card className="border-blue-200 bg-blue-50/50">
-            <CardHeader>
-              <CardTitle className="text-blue-800 flex items-center gap-2">
-                💡 Review Instructions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-blue-700 text-sm">
-                <motion.li
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8, duration: 0.3 }}
-                >
-                  • <strong>Easy</strong>: You recall this word easily. The next
-                  review interval will be extended.
-                </motion.li>
-                <motion.li
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.9, duration: 0.3 }}
-                >
-                  • <strong>Medium</strong>: You recall the word, but it
-                  requires some thought. The review interval will be normal.
-                </motion.li>
-                <motion.li
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.0, duration: 0.3 }}
-                >
-                  • <strong>Hard</strong>: You have difficulty recalling this
-                  word. The review interval will be shortened.
-                </motion.li>
-              </ul>
-            </CardContent>
-          </Card>
+        <AnimatedContainer
+          variant="slideUp"
+          delay={0.7}
+          className="mx-auto mt-8 max-w-2xl"
+        >
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>
+                <div className="flex items-center gap-2">
+                  <Info className="h-5 w-5" />
+                  <span>Review Instructions</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <ul className="space-y-2 pl-4 text-sm text-muted-foreground list-disc">
+                  <li>
+                    <strong>Easy</strong>: You recall this word easily. The next
+                    review interval will be extended.
+                  </li>
+                  <li>
+                    <strong>Medium</strong>: You recall the word, but it
+                    requires some thought. The review interval will be normal.
+                  </li>
+                  <li>
+                    <strong>Hard</strong>: You have difficulty recalling this
+                    word. The review interval will be shortened.
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </AnimatedContainer>
       </div>
     </div>

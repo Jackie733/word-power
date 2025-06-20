@@ -56,7 +56,7 @@ export default function StatsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
+    <div className="bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8">
         {/* Page Title */}
         <AnimatedContainer variant="fadeIn">
@@ -88,7 +88,7 @@ export default function StatsPage() {
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2">
                 Learning Statistics
               </h1>
-              <p className="text-slate-600 text-lg">
+              <p className="text-muted-foreground text-lg">
                 Review your learning progress and achievements
               </p>
             </motion.div>
@@ -137,7 +137,7 @@ export default function StatsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Weekly Goal */}
           <AnimatedContainer variant="slideUp" delay={0.2}>
-            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+            <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -170,24 +170,28 @@ export default function StatsPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <motion.div
-                    className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200"
+                    className="rounded-lg border bg-muted/30 p-4 text-center"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="text-2xl font-bold text-blue-600">
+                    <div className="text-2xl font-bold text-primary">
                       {stats.todayReviewed}
                     </div>
-                    <div className="text-sm text-blue-600">Reviewed Today</div>
+                    <div className="text-sm text-muted-foreground">
+                      Reviewed Today
+                    </div>
                   </motion.div>
                   <motion.div
-                    className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200"
+                    className="rounded-lg border bg-muted/30 p-4 text-center"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="text-2xl font-bold text-green-600">
+                    <div className="text-2xl font-bold text-primary">
                       {stats.totalReviews}
                     </div>
-                    <div className="text-sm text-green-600">Total Reviews</div>
+                    <div className="text-sm text-muted-foreground">
+                      Total Reviews
+                    </div>
                   </motion.div>
                 </div>
               </CardContent>
@@ -196,7 +200,7 @@ export default function StatsPage() {
 
           {/* Mastery Distribution */}
           <AnimatedContainer variant="slideUp" delay={0.3}>
-            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+            <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
@@ -223,7 +227,7 @@ export default function StatsPage() {
                         <span className="text-lg font-semibold text-slate-800 min-w-[2rem] text-right">
                           {item.count}
                         </span>
-                        <div className="w-20 bg-slate-200 rounded-full h-2">
+                        <div className="w-20 bg-muted rounded-full h-2">
                           <motion.div
                             className={`h-2 rounded-full ${item.color}`}
                             initial={{ width: 0 }}
@@ -247,7 +251,7 @@ export default function StatsPage() {
 
         {/* Recent Activity */}
         <AnimatedContainer variant="slideUp" delay={0.4} className="mt-8">
-          <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+          <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
