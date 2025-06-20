@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, BookOpen, CheckCircle, Clock, Plus } from "lucide-react";
+import { PrismaClient } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { AnimatedContainer } from "@/components/animated-container";
@@ -7,20 +8,21 @@ import { StatCard } from "@/components/stat-card";
 import { WordList } from "./_components/word-list";
 import { type Word } from "@prisma/client";
 
+const prisma = new PrismaClient();
+
 async function getWords(): Promise<Word[]> {
   try {
-    // In a real app, you'd fetch from an absolute URL
-    // but for simplicity in development, we use localhost.
-    const res = await fetch("http://localhost:3000/api/words", {
-      cache: "no-store", // Ensure we get fresh data
+    const words = await prisma.word.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
     });
-    if (!res.ok) {
-      throw new Error("Failed to fetch words");
-    }
-    return res.json();
+    return words;
   } catch (error) {
     console.error("Error fetching words:", error);
     return []; // Return empty array on error
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
