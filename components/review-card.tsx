@@ -13,6 +13,7 @@ interface ReviewCardProps {
   meaning: string;
   example?: string;
   onAnswer?: (difficulty: "easy" | "medium" | "hard") => void;
+  disabled?: boolean;
   className?: string;
 }
 
@@ -22,12 +23,14 @@ export function ReviewCard({
   meaning,
   example,
   onAnswer,
+  disabled = false,
   className,
 }: ReviewCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
 
   const handleFlip = () => {
+    if (disabled) return;
     setIsFlipped(!isFlipped);
     if (!isFlipped) {
       setTimeout(() => setShowAnswer(true), 300);
@@ -37,6 +40,7 @@ export function ReviewCard({
   };
 
   const handleAnswer = (difficulty: "easy" | "medium" | "hard") => {
+    if (disabled) return;
     onAnswer?.(difficulty);
     setIsFlipped(false);
     setShowAnswer(false);
@@ -134,23 +138,26 @@ export function ReviewCard({
                 <Button
                   onClick={() => handleAnswer("hard")}
                   variant="outline"
-                  className="text-red-600 border-red-200 hover:bg-red-50"
+                  disabled={disabled}
+                  className="text-red-600 border-red-200 hover:bg-red-50 disabled:opacity-50"
                 >
-                  Hard
+                  困难
                 </Button>
                 <Button
                   onClick={() => handleAnswer("medium")}
                   variant="outline"
-                  className="text-yellow-600 border-yellow-200 hover:bg-yellow-50"
+                  disabled={disabled}
+                  className="text-yellow-600 border-yellow-200 hover:bg-yellow-50 disabled:opacity-50"
                 >
-                  Medium
+                  一般
                 </Button>
                 <Button
                   onClick={() => handleAnswer("easy")}
                   variant="outline"
-                  className="text-green-600 border-green-200 hover:bg-green-50"
+                  disabled={disabled}
+                  className="text-green-600 border-green-200 hover:bg-green-50 disabled:opacity-50"
                 >
-                  Easy
+                  简单
                 </Button>
               </motion.div>
             )}

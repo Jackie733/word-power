@@ -16,9 +16,41 @@ datasource db {
 model Word {
   id            String   @id @default(cuid())
   createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
   text          String   @unique
   pronunciation String?
   meaning       String
   example       String?
   audioUrl      String?
+
+  // 复习相关字段
+  reviewStage    Int      @default(0) // 复习阶段 (0=新单词, 1-6=不同复习阶段)
+  nextReviewDate DateTime @default(now()) // 下次复习时间
+  reviewCount    Int      @default(0) // 总复习次数
+  correctCount   Int      @default(0) // 正确次数
+  easeFactor     Float    @default(2.5) // 难度系数 (1.3-2.5)
+  interval       Int      @default(1) // 当前间隔天数
+  isLearning     Boolean  @default(true) // 是否还在学习中
+  masteryLevel   String   @default("NEW") // 掌握程度: NEW, LEARNING, REVIEW, MASTERED
+
+  // 复习历史记录
+  reviews Review[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  wordId    String
+  word      Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  // 复习结果
+  difficulty   String // "hard", "medium", "easy"
+  responseTime Int? // 响应时间（毫秒）
+  wasCorrect   Boolean // 是否回答正确
+
+  // 复习前后的状态
+  oldStage    Int // 复习前的阶段
+  newStage    Int // 复习后的阶段
+  oldInterval Int // 复习前的间隔
+  newInterval Int // 复习后的间隔
 }

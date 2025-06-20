@@ -34,6 +34,9 @@ export async function POST(request: Request) {
       );
     }
 
+    // 设置新单词的初始复习状态
+    const now = new Date();
+
     const newWord = await prisma.word.upsert({
       where: { text: word },
       update: {
@@ -41,6 +44,7 @@ export async function POST(request: Request) {
         meaning,
         example,
         audioUrl,
+        updatedAt: now,
       },
       create: {
         text: word,
@@ -48,6 +52,15 @@ export async function POST(request: Request) {
         meaning,
         example,
         audioUrl,
+        // 复习相关的初始状态
+        reviewStage: 0,
+        nextReviewDate: now, // 立即可以复习
+        reviewCount: 0,
+        correctCount: 0,
+        easeFactor: 2.5,
+        interval: 1,
+        isLearning: true,
+        masteryLevel: "NEW",
       },
     });
 
