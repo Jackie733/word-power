@@ -3,7 +3,7 @@ import { ArrowLeft, BookOpen, CheckCircle, Clock, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AnimatedContainer } from "@/components/animated-container";
-import { StatCard } from "@/components/ui/stat-card";
+import { StatCard } from "@/components/stat-card";
 import { WordList } from "./_components/word-list";
 import { type Word } from "@prisma/client";
 

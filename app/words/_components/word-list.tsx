@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { WordCard } from "@/components/ui/word-card";
+import { WordCard } from "@/components/word-card";
 import { BookOpen, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

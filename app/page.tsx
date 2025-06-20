@@ -8,7 +8,7 @@ import {
   TrendingUp,
   MoveRight,
 } from "lucide-react";
-import { StatCard } from "@/components/ui/stat-card";
+import { StatCard } from "@/components/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

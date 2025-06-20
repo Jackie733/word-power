@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ReviewCard } from "@/components/ui/review-card";
+import { ReviewCard } from "@/components/review-card";
 import { AnimatedContainer } from "@/components/animated-container";
 
 interface Word {
