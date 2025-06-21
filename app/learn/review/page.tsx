@@ -60,8 +60,8 @@ export default function ReviewWords() {
       setError(null);
     } catch (error) {
       console.error("Error fetching review words:", error);
-      setError("无法获取复习单词，请稍后重试");
-      toast.error("获取复习单词失败");
+      setError("Unable to fetch review words, please try again later");
+      toast.error("Failed to fetch review words");
     } finally {
       setIsLoading(false);
     }
@@ -89,36 +89,20 @@ export default function ReviewWords() {
         throw new Error("Failed to submit review");
       }
 
-      const result = await response.json();
-
-      // 显示复习结果
-      const nextReviewDays = Math.ceil(
-        (new Date(result.nextReview.nextDate).getTime() -
-          new Date().getTime()) /
-          (1000 * 60 * 60 * 24)
-      );
-
-      let message = `复习完成！`;
-      if (nextReviewDays <= 1) {
-        message += ` 明天再次复习`;
-      } else if (nextReviewDays <= 7) {
-        message += ` ${nextReviewDays}天后复习`;
-      } else {
-        message += ` ${Math.ceil(nextReviewDays / 7)}周后复习`;
-      }
-
-      toast.success(message);
-
+      // 不再显示每次复习的提醒，只在完成所有复习后显示
       // 标记为已完成
       setCompletedWords(prev => [...prev, currentWord.id]);
 
       // 移动到下一个单词
       if (currentWordIndex < reviewWords.length - 1) {
         setCurrentWordIndex(prev => prev + 1);
+      } else {
+        // 所有单词复习完成时显示提醒
+        toast.success("All reviews completed! Great job!");
       }
     } catch (error) {
       console.error("Error submitting review:", error);
-      toast.error("提交复习结果失败，请重试");
+      toast.error("Failed to submit review, please try again");
     } finally {
       setIsSubmitting(false);
     }
@@ -145,7 +129,7 @@ export default function ReviewWords() {
           transition={{ duration: 0.3 }}
         >
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">正在加载复习单词...</p>
+          <p className="text-muted-foreground">Loading review words...</p>
         </motion.div>
       </div>
     );
@@ -161,12 +145,14 @@ export default function ReviewWords() {
           transition={{ duration: 0.3 }}
         >
           <div className="text-6xl mb-4">😞</div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">出错了</h1>
+          <h1 className="text-2xl font-bold text-foreground mb-2">
+            Something went wrong
+          </h1>
           <p className="text-muted-foreground mb-6">{error}</p>
           <div className="flex gap-4 justify-center">
-            <Button onClick={fetchReviewWords}>重试</Button>
+            <Button onClick={fetchReviewWords}>Retry</Button>
             <Button variant="outline" asChild>
-              <Link href="/">返回首页</Link>
+              <Link href="/">Back to Home</Link>
             </Button>
           </div>
         </motion.div>
@@ -185,17 +171,17 @@ export default function ReviewWords() {
         >
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            今天没有需要复习的单词
+            No words to review today
           </h1>
           <p className="text-muted-foreground mb-6">
-            您已经完成了所有复习任务！
+            You&apos;ve completed all your review tasks!
           </p>
           <div className="flex gap-4 justify-center">
             <Button asChild>
-              <Link href="/learn/new">学习新单词</Link>
+              <Link href="/learn/new">Learn New Words</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/">返回首页</Link>
+              <Link href="/">Back to Home</Link>
             </Button>
           </div>
         </motion.div>
@@ -226,7 +212,7 @@ export default function ReviewWords() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            复习完成！
+            Review Complete!
           </motion.h1>
           <motion.p
             className="text-muted-foreground mb-6"
@@ -234,7 +220,8 @@ export default function ReviewWords() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            您已经完成了今天的复习任务，共复习了 {reviewWords.length} 个单词。
+            You&apos;ve completed today&apos;s review session. You reviewed{" "}
+            {reviewWords.length} word{reviewWords.length !== 1 ? "s" : ""}.
           </motion.p>
           <motion.div
             className="flex gap-4 justify-center"
@@ -243,13 +230,13 @@ export default function ReviewWords() {
             transition={{ delay: 0.8, duration: 0.5 }}
           >
             <Button onClick={resetReview} size="lg">
-              再次复习
+              Review Again
             </Button>
             <Button onClick={restartReview} variant="outline" size="lg">
-              刷新单词列表
+              Refresh Word List
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/">返回首页</Link>
+              <Link href="/">Back to Home</Link>
             </Button>
           </motion.div>
         </motion.div>
@@ -262,8 +249,8 @@ export default function ReviewWords() {
       <div className="container mx-auto px-4 py-4 md:py-8">
         {/* Page Title and Progress */}
         <PageHeader
-          title="复习单词"
-          description={`还有 ${remainingWords} 个单词需要复习`}
+          title="Review Words"
+          description={`${remainingWords} word${remainingWords !== 1 ? "s" : ""} remaining to review`}
           action={
             <motion.div
               className="flex items-center gap-4 text-sm text-muted-foreground"
@@ -273,12 +260,12 @@ export default function ReviewWords() {
             >
               <div className="flex items-center gap-1">
                 <Target className="w-4 h-4" />
-                <span className="hidden sm:inline">进度:</span>
+                <span className="hidden sm:inline">Progress:</span>
                 {completedWords.length + 1} / {reviewWords.length}
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                <span className="hidden sm:inline">剩余:</span>
+                <span className="hidden sm:inline">Remaining:</span>
                 {remainingWords}
               </div>
             </motion.div>
@@ -295,7 +282,7 @@ export default function ReviewWords() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">复习进度</span>
+                <span className="text-sm font-medium">Review Progress</span>
                 <span className="text-sm text-muted-foreground">
                   {Math.round(
                     (completedWords.length / reviewWords.length) * 100
@@ -350,22 +337,22 @@ export default function ReviewWords() {
               <AccordionTrigger>
                 <div className="flex items-center gap-2">
                   <Info className="h-5 w-5" />
-                  <span>复习说明</span>
+                  <span>Review Instructions</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent>
                 <ul className="space-y-2 pl-4 text-sm text-muted-foreground list-disc">
                   <li>
-                    <strong>简单</strong>
-                    ：您很容易回忆起这个单词。下次复习间隔会延长。
+                    <strong>Easy</strong>: You easily recalled this word. The
+                    next review interval will be extended.
                   </li>
                   <li>
-                    <strong>一般</strong>
-                    ：您能回忆起单词，但需要一些思考。复习间隔保持正常。
+                    <strong>Medium</strong>: You recalled the word but needed
+                    some thinking. The review interval remains normal.
                   </li>
                   <li>
-                    <strong>困难</strong>
-                    ：您很难回忆起这个单词。复习间隔会缩短。
+                    <strong>Hard</strong>: You had difficulty recalling this
+                    word. The review interval will be shortened.
                   </li>
                 </ul>
               </AccordionContent>
