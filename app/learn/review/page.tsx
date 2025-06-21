@@ -121,125 +121,179 @@ export default function ReviewWords() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-grow items-center justify-center bg-background">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">Loading review words...</p>
-        </motion.div>
+      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
+            <motion.div
+              className="text-center max-w-lg mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Loader2 className="h-12 w-12 md:h-16 md:w-16 animate-spin mx-auto mb-6 md:mb-8 text-primary" />
+              <p className="text-muted-foreground text-base md:text-lg">
+                Loading review words...
+              </p>
+            </motion.div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex flex-grow items-center justify-center bg-background">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="text-6xl mb-4">😞</div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            Something went wrong
-          </h1>
-          <p className="text-muted-foreground mb-6">{error}</p>
-          <div className="flex gap-4 justify-center">
-            <Button onClick={fetchReviewWords}>Retry</Button>
-            <Button variant="outline" asChild>
-              <Link href="/">Back to Home</Link>
-            </Button>
+      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
+            <motion.div
+              className="text-center max-w-lg mx-auto"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="text-6xl md:text-8xl mb-6 md:mb-8">😞</div>
+              <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-4 md:mb-6">
+                Something went wrong
+              </h1>
+              <p className="text-muted-foreground text-base md:text-lg mb-8 md:mb-10 px-4">
+                {error}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                <Button
+                  onClick={fetchReviewWords}
+                  size="lg"
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  Retry
+                </Button>
+                <Button
+                  variant="outline"
+                  asChild
+                  size="lg"
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  <Link href="/">Back to Home</Link>
+                </Button>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   if (reviewWords.length === 0) {
     return (
-      <div className="flex flex-grow items-center justify-center bg-background">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="text-6xl mb-4">🎉</div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            No words to review today
-          </h1>
-          <p className="text-muted-foreground mb-6">
-            You&apos;ve completed all your review tasks!
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button asChild>
-              <Link href="/learn/new">Learn New Words</Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="/">Back to Home</Link>
-            </Button>
+      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
+            <motion.div
+              className="text-center max-w-lg mx-auto"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="text-6xl md:text-8xl mb-6 md:mb-8">🎉</div>
+              <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-4 md:mb-6">
+                No words to review today
+              </h1>
+              <p className="text-muted-foreground text-base md:text-lg mb-8 md:mb-10 px-4">
+                You&apos;ve completed all your review tasks!
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  <Link href="/learn/new">Learn New Words</Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  asChild
+                  size="lg"
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  <Link href="/">Back to Home</Link>
+                </Button>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   if (completedWords.length === reviewWords.length) {
     return (
-      <div className="bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center flex-grow">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <motion.div
-            className="text-6xl mb-4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
-          >
-            🎉
-          </motion.div>
-          <motion.h1
-            className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-          >
-            Review Complete!
-          </motion.h1>
-          <motion.p
-            className="text-muted-foreground mb-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
-            You&apos;ve completed today&apos;s review session. You reviewed{" "}
-            {reviewWords.length} word{reviewWords.length !== 1 ? "s" : ""}.
-          </motion.p>
-          <motion.div
-            className="flex gap-4 justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-          >
-            <Button onClick={resetReview} size="lg">
-              Review Again
-            </Button>
-            <Button onClick={restartReview} variant="outline" size="lg">
-              Refresh Word List
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link href="/">Back to Home</Link>
-            </Button>
-          </motion.div>
-        </motion.div>
+      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
+            <motion.div
+              className="text-center max-w-lg mx-auto"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                className="text-6xl md:text-8xl mb-6 md:mb-8"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
+              >
+                🎉
+              </motion.div>
+              <motion.h1
+                className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 md:mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                Review Complete!
+              </motion.h1>
+              <motion.p
+                className="text-muted-foreground text-base md:text-lg mb-8 md:mb-10 px-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+              >
+                You&apos;ve completed today&apos;s review session. You reviewed{" "}
+                {reviewWords.length} word{reviewWords.length !== 1 ? "s" : ""}.
+              </motion.p>
+              <motion.div
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
+                <Button
+                  onClick={resetReview}
+                  size="lg"
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  Review Again
+                </Button>
+                <Button
+                  onClick={restartReview}
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  Refresh Word List
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  asChild
+                  className="w-full sm:w-auto min-w-[140px]"
+                >
+                  <Link href="/">Back to Home</Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -300,7 +354,7 @@ export default function ReviewWords() {
 
         {/* Word Card */}
         <motion.div
-          className="max-w-2xl mx-auto"
+          className="w-full md:max-w-2xl md:mx-auto"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.3 }}
@@ -312,6 +366,7 @@ export default function ReviewWords() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.1 }}
               transition={{ duration: 0.4 }}
+              className="md:px-0 -mx-4 md:mx-0"
             >
               <ReviewCard
                 word={currentWord.text}
@@ -320,6 +375,7 @@ export default function ReviewWords() {
                 example={currentWord.example}
                 onAnswer={handleReviewResult}
                 disabled={isSubmitting}
+                className="md:rounded-lg"
               />
             </motion.div>
           </AnimatePresence>
