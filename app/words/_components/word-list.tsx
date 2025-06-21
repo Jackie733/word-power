@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { type Word } from "@prisma/client";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
   Table,
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { WordCard } from "@/components/word-card";
-import { BookOpen, Volume2 } from "lucide-react";
+import { BookOpen, Volume2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface WordListProps {
@@ -24,6 +25,8 @@ interface WordListProps {
 export function WordList({ initialWords }: WordListProps) {
   const [words, setWords] = useState(initialWords);
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const router = useRouter();
 
   const handleRowClick = (word: Word) => {
     setSelectedWord(word);
@@ -61,18 +64,54 @@ export function WordList({ initialWords }: WordListProps) {
     }
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      // 刷新页面数据
+      router.refresh();
+      toast.success("Word list refreshed!");
+    } catch {
+      toast.error("Failed to refresh word list");
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   if (words.length === 0) {
     return (
       <div className="text-center py-20 text-muted-foreground flex flex-col items-center gap-4">
         <BookOpen className="h-12 w-12" />
         <h3 className="text-xl font-semibold">No Words Yet</h3>
         <p>Your word collection is empty. Start by adding a new word!</p>
+        <Button onClick={handleRefresh} disabled={isRefreshing}>
+          <RefreshCw
+            className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`}
+          />
+          Refresh
+        </Button>
       </div>
     );
   }
 
   return (
     <>
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-sm text-muted-foreground">
+          {words.length} word{words.length !== 1 ? "s" : ""} in your library
+        </p>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+        >
+          <RefreshCw
+            className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`}
+          />
+          Refresh
+        </Button>
+      </div>
+
       <div className="rounded-lg border shadow-sm bg-card">
         <Table>
           <TableHeader>

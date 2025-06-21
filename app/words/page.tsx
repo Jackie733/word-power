@@ -8,31 +8,64 @@ import { StatCard } from "@/components/stat-card";
 import { WordList } from "./_components/word-list";
 import { type Word } from "@prisma/client";
 
+// 强制动态渲染，确保每次都获取最新数据
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const prisma = new PrismaClient();
 
 async function getWords(): Promise<Word[]> {
   try {
+    console.log("Fetching words from database...");
     const words = await prisma.word.findMany({
       orderBy: {
         createdAt: "desc",
       },
     });
+    console.log(`Found ${words.length} words in database`);
     return words;
   } catch (error) {
     console.error("Error fetching words:", error);
-    return []; // Return empty array on error
+    throw error;
   } finally {
     await prisma.$disconnect();
   }
 }
 
 export default async function WordsManagementPage() {
-  const words = await getWords();
+  let words: Word[];
+
+  try {
+    words = await getWords();
+  } catch (error) {
+    console.error("Failed to load words:", error);
+    return (
+      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+        <div className="container mx-auto px-4 py-4 md:py-8">
+          <PageHeader title="Word Library" description="Error loading words" />
+          <div className="text-center py-20 text-muted-foreground flex flex-col items-center gap-4">
+            <BookOpen className="h-12 w-12" />
+            <h3 className="text-xl font-semibold">Failed to Load Words</h3>
+            <p>
+              There was an error connecting to the database. Please try
+              refreshing the page.
+            </p>
+            <Button onClick={() => window.location.reload()}>
+              Refresh Page
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const totalWords = words.length;
-  // These stats can be enhanced later (e.g., mastery level)
-  const masteredWords = 0;
-  const learningWords = totalWords;
+  const masteredWords = words.filter(
+    word => word.masteryLevel === "MASTERED"
+  ).length;
+  const learningWords = words.filter(
+    word => word.masteryLevel === "LEARNING"
+  ).length;
 
   return (
     <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
