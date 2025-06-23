@@ -67,54 +67,60 @@ export function StatCard({
     >
       <Card
         className={cn(
-          "overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm cursor-pointer",
+          "overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm cursor-pointer h-full",
           className
         )}
       >
-        <CardContent className="p-6">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              {icon && (
-                <motion.div
-                  className="p-3 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-xl"
-                  initial={{ rotate: -10, scale: 0.8 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  transition={{ delay: delay + 0.2, duration: 0.4 }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                >
-                  <div className="text-blue-600 dark:text-blue-400">{icon}</div>
-                </motion.div>
-              )}
-              <div>
-                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                  {title}
-                </p>
+        <CardContent className="p-6 h-full flex flex-col justify-between min-h-[180px]">
+          <div className="flex-1">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                {icon && (
+                  <motion.div
+                    className="p-3 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-xl"
+                    initial={{ rotate: -10, scale: 0.8 }}
+                    animate={{ rotate: 0, scale: 1 }}
+                    transition={{ delay: delay + 0.2, duration: 0.4 }}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
+                    <div className="text-blue-600 dark:text-blue-400">
+                      {icon}
+                    </div>
+                  </motion.div>
+                )}
+                <div>
+                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                    {title}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Main Value */}
-          <motion.div
-            className="mb-4"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: delay + 0.3, duration: 0.4 }}
-          >
-            <div className="text-3xl md:text-4xl font-bold text-foreground leading-none mb-2">
-              {value}
-            </div>
-            {description && (
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {description}
-              </p>
-            )}
-          </motion.div>
+            {/* Main Value */}
+            <motion.div
+              className="mb-4"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: delay + 0.3, duration: 0.4 }}
+            >
+              <div className="text-3xl md:text-4xl font-bold text-foreground leading-none mb-2">
+                {value}
+              </div>
+              <div className="min-h-[1.25rem]">
+                {description && (
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {description}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Trend Indicator */}
           {trend && trendValue && (
             <motion.div
-              className="flex items-center justify-between"
+              className="flex items-center justify-between mt-auto"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: delay + 0.5, duration: 0.4 }}
