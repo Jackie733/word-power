@@ -3,7 +3,7 @@ import { BookOpen, CheckCircle, Clock, Plus } from "lucide-react";
 import { PrismaClient } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/page-header";
+import { SimplePageHeader } from "@/components/page-header";
 import { StatCard } from "@/components/stat-card";
 import { WordList } from "./_components/word-list";
 import { type Word } from "@prisma/client";
@@ -42,7 +42,10 @@ export default async function WordsManagementPage() {
     return (
       <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
         <div className="container mx-auto px-4 py-4 md:py-8">
-          <PageHeader title="Word Library" description="Error loading words" />
+          <SimplePageHeader
+            title="Word Library"
+            description="Error loading words"
+          />
           <div className="text-center py-20 text-muted-foreground flex flex-col items-center gap-4">
             <BookOpen className="h-12 w-12" />
             <h3 className="text-xl font-semibold">Failed to Load Words</h3>
@@ -68,15 +71,15 @@ export default async function WordsManagementPage() {
   ).length;
 
   return (
-    <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
-      <div className="container mx-auto px-4 py-4 md:py-8">
-        <PageHeader
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-purple-900/20">
+      <div className="container mx-auto px-4 py-6 md:py-8">
+        <SimplePageHeader
           title="Word Library"
           description={`You have ${totalWords} words in your collection.`}
           action={
             <Button
               asChild
-              className="shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <Link href="/learn/new">
                 <Plus className="h-4 w-4 mr-2" />
@@ -91,16 +94,22 @@ export default async function WordsManagementPage() {
             title="Total Words"
             value={totalWords.toString()}
             icon={<BookOpen className="h-6 w-6" />}
+            description="Words in your library"
+            trend="neutral"
           />
           <StatCard
             title="Mastered"
             value={masteredWords.toString()}
             icon={<CheckCircle className="h-6 w-6" />}
+            description="Fully learned words"
+            trend="up"
           />
           <StatCard
             title="Learning"
             value={learningWords.toString()}
             icon={<Clock className="h-6 w-6" />}
+            description="In progress"
+            trend="neutral"
           />
         </div>
 

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
-import { Target, Clock, Info, Loader2 } from "lucide-react";
+import { motion } from "motion/react";
+import { Target, Info, Loader2, RefreshCw, Home } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,7 +14,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PageHeader } from "@/components/page-header";
 import { ReviewCard } from "@/components/review-card";
 import { toast } from "sonner";
 
@@ -89,7 +88,6 @@ export default function ReviewWords() {
         throw new Error("Failed to submit review");
       }
 
-      // 不再显示每次复习的提醒，只在完成所有复习后显示
       // 标记为已完成
       setCompletedWords(prev => [...prev, currentWord.id]);
 
@@ -108,11 +106,6 @@ export default function ReviewWords() {
     }
   };
 
-  const resetReview = () => {
-    setCurrentWordIndex(0);
-    setCompletedWords([]);
-  };
-
   const restartReview = () => {
     setCurrentWordIndex(0);
     setCompletedWords([]);
@@ -121,7 +114,7 @@ export default function ReviewWords() {
 
   if (isLoading) {
     return (
-      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-blue-900/20">
         <div className="container mx-auto px-4 py-8 md:py-12">
           <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
             <motion.div
@@ -130,10 +123,15 @@ export default function ReviewWords() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Loader2 className="h-12 w-12 md:h-16 md:w-16 animate-spin mx-auto mb-6 md:mb-8 text-primary" />
-              <p className="text-muted-foreground text-base md:text-lg">
-                Loading review words...
-              </p>
+              <div className="mb-8 p-6 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-3xl border border-white/20 dark:border-slate-700/50 shadow-xl">
+                <Loader2 className="h-16 w-16 animate-spin mx-auto mb-6 text-blue-600" />
+                <h2 className="text-2xl font-semibold text-foreground mb-2">
+                  Loading Reviews
+                </h2>
+                <p className="text-muted-foreground text-lg">
+                  Preparing your review session...
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -143,7 +141,7 @@ export default function ReviewWords() {
 
   if (error) {
     return (
-      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-red-900/20">
         <div className="container mx-auto px-4 py-8 md:py-12">
           <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
             <motion.div
@@ -152,30 +150,38 @@ export default function ReviewWords() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="text-6xl md:text-8xl mb-6 md:mb-8">😞</div>
-              <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-4 md:mb-6">
-                Something went wrong
-              </h1>
-              <p className="text-muted-foreground text-base md:text-lg mb-8 md:mb-10 px-4">
-                {error}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-                <Button
-                  onClick={fetchReviewWords}
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  Retry
-                </Button>
-                <Button
-                  variant="outline"
-                  asChild
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  <Link href="/">Back to Home</Link>
-                </Button>
-              </div>
+              <Card className="border-0 shadow-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
+                <CardContent className="p-8">
+                  <div className="text-6xl mb-6">😞</div>
+                  <h1 className="text-3xl font-bold text-foreground mb-4">
+                    Something went wrong
+                  </h1>
+                  <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+                    {error}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button
+                      onClick={fetchReviewWords}
+                      size="lg"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Try Again
+                    </Button>
+                    <Button
+                      variant="outline"
+                      asChild
+                      size="lg"
+                      className="border-2"
+                    >
+                      <Link href="/">
+                        <Home className="w-4 h-4 mr-2" />
+                        Back to Home
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
         </div>
@@ -185,7 +191,7 @@ export default function ReviewWords() {
 
   if (reviewWords.length === 0) {
     return (
-      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-emerald-900/20">
         <div className="container mx-auto px-4 py-8 md:py-12">
           <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
             <motion.div
@@ -194,30 +200,41 @@ export default function ReviewWords() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="text-6xl md:text-8xl mb-6 md:mb-8">🎉</div>
-              <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-4 md:mb-6">
-                No words to review today
-              </h1>
-              <p className="text-muted-foreground text-base md:text-lg mb-8 md:mb-10 px-4">
-                You&apos;ve completed all your review tasks!
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-                <Button
-                  asChild
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  <Link href="/learn/new">Learn New Words</Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  asChild
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  <Link href="/">Back to Home</Link>
-                </Button>
-              </div>
+              <Card className="border-0 shadow-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
+                <CardContent className="p-8">
+                  <div className="text-6xl mb-6">🎉</div>
+                  <h1 className="text-3xl font-bold text-foreground mb-4">
+                    All caught up!
+                  </h1>
+                  <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+                    No words need reviewing right now. Great job keeping up with
+                    your studies!
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button
+                      asChild
+                      size="lg"
+                      className="bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <Link href="/learn/new">
+                        <Target className="w-4 h-4 mr-2" />
+                        Learn New Words
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      asChild
+                      size="lg"
+                      className="border-2"
+                    >
+                      <Link href="/">
+                        <Home className="w-4 h-4 mr-2" />
+                        Back to Dashboard
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
         </div>
@@ -225,9 +242,10 @@ export default function ReviewWords() {
     );
   }
 
-  if (completedWords.length === reviewWords.length) {
+  // 所有单词复习完成
+  if (remainingWords === 0) {
     return (
-      <div className="bg-gradient-to-br from-background via-muted/20 to-background min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-emerald-900/20">
         <div className="container mx-auto px-4 py-8 md:py-12">
           <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
             <motion.div
@@ -236,181 +254,159 @@ export default function ReviewWords() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <motion.div
-                className="text-6xl md:text-8xl mb-6 md:mb-8"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
-              >
-                🎉
-              </motion.div>
-              <motion.h1
-                className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 md:mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                Review Complete!
-              </motion.h1>
-              <motion.p
-                className="text-muted-foreground text-base md:text-lg mb-8 md:mb-10 px-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-              >
-                You&apos;ve completed today&apos;s review session. You reviewed{" "}
-                {reviewWords.length} word{reviewWords.length !== 1 ? "s" : ""}.
-              </motion.p>
-              <motion.div
-                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-              >
-                <Button
-                  onClick={resetReview}
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  Review Again
-                </Button>
-                <Button
-                  onClick={restartReview}
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  Refresh Word List
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  asChild
-                  className="w-full sm:w-auto min-w-[140px]"
-                >
-                  <Link href="/">Back to Home</Link>
-                </Button>
-              </motion.div>
+              <Card className="border-0 shadow-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
+                <CardContent className="p-8">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                    className="text-6xl mb-6"
+                  >
+                    🏆
+                  </motion.div>
+                  <h1 className="text-3xl font-bold text-foreground mb-4">
+                    Session Complete!
+                  </h1>
+                  <p className="text-muted-foreground text-lg mb-2">
+                    You reviewed <strong>{reviewWords.length}</strong> words
+                  </p>
+                  <p className="text-muted-foreground text-base mb-8 leading-relaxed">
+                    Keep up the great work! Regular practice helps improve
+                    retention.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button
+                      onClick={restartReview}
+                      size="lg"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Review Again
+                    </Button>
+                    <Button
+                      variant="outline"
+                      asChild
+                      size="lg"
+                      className="border-2"
+                    >
+                      <Link href="/">
+                        <Home className="w-4 h-4 mr-2" />
+                        Back to Dashboard
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
         </div>
       </div>
     );
   }
+
+  const progressPercentage =
+    ((reviewWords.length - remainingWords) / reviewWords.length) * 100;
 
   return (
-    <div className="bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-4 md:py-8">
-        {/* Page Title and Progress */}
-        <PageHeader
-          title="Review Words"
-          description={`${remainingWords} word${remainingWords !== 1 ? "s" : ""} remaining to review`}
-          action={
-            <motion.div
-              className="flex items-center gap-4 text-sm text-muted-foreground"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-            >
-              <div className="flex items-center gap-1">
-                <Target className="w-4 h-4" />
-                <span className="hidden sm:inline">Progress:</span>
-                {completedWords.length + 1} / {reviewWords.length}
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                <span className="hidden sm:inline">Remaining:</span>
-                {remainingWords}
-              </div>
-            </motion.div>
-          }
-        />
-
-        {/* Progress Bar */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-purple-900/20">
+      <div className="container mx-auto px-4 py-6 md:py-8 max-w-4xl">
+        {/* Progress Section */}
         <motion.div
+          className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
-          className="mb-6 md:mb-8"
+          transition={{ duration: 0.5 }}
         >
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">Review Progress</span>
-                <span className="text-sm text-muted-foreground">
-                  {Math.round(
-                    (completedWords.length / reviewWords.length) * 100
-                  )}
-                  %
-                </span>
+          <Card className="border-0 shadow-lg bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Target className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Progress</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {completedWords.length} of {reviewWords.length} completed
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {Math.round(progressPercentage)}%
+                  </div>
+                </div>
               </div>
-              <Progress
-                value={(completedWords.length / reviewWords.length) * 100}
-                className="h-2"
-              />
+              <Progress value={progressPercentage} className="h-3" />
             </CardContent>
           </Card>
         </motion.div>
 
-        {/* Word Card */}
+        {/* Review Card */}
         <motion.div
-          className="w-full md:max-w-2xl md:mx-auto"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
+          key={currentWord?.id}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.3 }}
+          className="mb-8"
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentWord.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 0.4 }}
-              className="md:px-0 -mx-4 md:mx-0"
-            >
-              <ReviewCard
-                word={currentWord.text}
-                pronunciation={currentWord.pronunciation}
-                meaning={currentWord.meaning}
-                example={currentWord.example}
-                onAnswer={handleReviewResult}
-                disabled={isSubmitting}
-                className="md:rounded-lg"
-              />
-            </motion.div>
-          </AnimatePresence>
+          <ReviewCard
+            word={currentWord.text}
+            pronunciation={currentWord.pronunciation}
+            meaning={currentWord.meaning}
+            example={currentWord.example}
+            onAnswer={handleReviewResult}
+            disabled={isSubmitting}
+          />
         </motion.div>
 
-        {/* Review Instructions */}
+        {/* Review Tips */}
         <motion.div
-          className="mx-auto mt-6 md:mt-8 max-w-2xl"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.3 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
         >
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>
-                <div className="flex items-center gap-2">
-                  <Info className="h-5 w-5" />
-                  <span>Review Instructions</span>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="tips" className="border-0">
+              <AccordionTrigger className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-t-xl px-6 py-4 hover:no-underline border-0 shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Info className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <span className="font-semibold">Review Tips</span>
                 </div>
               </AccordionTrigger>
-              <AccordionContent>
-                <ul className="space-y-2 pl-4 text-sm text-muted-foreground list-disc">
-                  <li>
-                    <strong>Easy</strong>: You easily recalled this word. The
-                    next review interval will be extended.
-                  </li>
-                  <li>
-                    <strong>Medium</strong>: You recalled the word but needed
-                    some thinking. The review interval remains normal.
-                  </li>
-                  <li>
-                    <strong>Hard</strong>: You had difficulty recalling this
-                    word. The review interval will be shortened.
-                  </li>
-                </ul>
+              <AccordionContent className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-b-xl px-6 pb-6 border-0 shadow-lg">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                  <div className="p-4 bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-xl">
+                    <div className="text-2xl mb-2">💚</div>
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">
+                      Easy
+                    </h4>
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400">
+                      You remembered it instantly
+                    </p>
+                  </div>
+                  <div className="p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl">
+                    <div className="text-2xl mb-2">🟡</div>
+                    <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-1">
+                      Medium
+                    </h4>
+                    <p className="text-sm text-amber-600 dark:text-amber-400">
+                      It took some thought
+                    </p>
+                  </div>
+                  <div className="p-4 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl">
+                    <div className="text-2xl mb-2">🔴</div>
+                    <h4 className="font-semibold text-red-700 dark:text-red-300 mb-1">
+                      Hard
+                    </h4>
+                    <p className="text-sm text-red-600 dark:text-red-400">
+                      You struggled or forgot
+                    </p>
+                  </div>
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

@@ -14,7 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { PageHeader } from "@/components/page-header";
+import { SimplePageHeader } from "@/components/page-header";
 import { StatCard } from "@/components/stat-card";
 import type { StatsData } from "@/lib/database";
 
@@ -76,10 +76,10 @@ export default function StatsClient({ statsData }: StatsClientProps) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-4 md:py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-emerald-900/20">
+      <div className="container mx-auto px-4 py-6 md:py-8">
         {/* Page Title */}
-        <PageHeader
+        <SimplePageHeader
           title="Learning Statistics"
           description="Review your learning progress and achievements"
         />
@@ -132,7 +132,7 @@ export default function StatsClient({ statsData }: StatsClientProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.3 }}
           >
-            <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -201,7 +201,7 @@ export default function StatsClient({ statsData }: StatsClientProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.3 }}
           >
-            <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
@@ -257,7 +257,7 @@ export default function StatsClient({ statsData }: StatsClientProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.3 }}
         >
-          <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+          <Card className="border-0 shadow-lg bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Clock className="h-5 w-5" />
@@ -324,7 +324,7 @@ export default function StatsClient({ statsData }: StatsClientProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.3 }}
           >
-            <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle>30-Day Summary</CardTitle>
               </CardHeader>

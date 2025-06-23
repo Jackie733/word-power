@@ -1,69 +1,47 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface PageHeaderProps {
   title: string;
   description?: string;
-  backHref?: string;
-  backLabel?: string;
-  action?: React.ReactNode;
+  action?: ReactNode;
+  className?: string;
+}
+
+interface SimplePageHeaderProps {
+  title: string;
+  description?: string;
+  action?: ReactNode;
   className?: string;
 }
 
 export function PageHeader({
   title,
   description,
-  backHref = "/",
-  backLabel = "Back to Dashboard",
   action,
   className,
 }: PageHeaderProps) {
   return (
     <motion.div
-      className={cn("mb-4 md:mb-6", className)}
+      className={`mb-6 md:mb-8 ${className || ""}`}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.4 }}
     >
-      {/* Back Button */}
-      <motion.div
-        className="mb-3 md:mb-4"
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
-      >
-        <Button
-          variant="ghost"
-          size="sm"
-          asChild
-          className="text-muted-foreground hover:text-foreground -ml-2"
-        >
-          <Link href={backHref}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            <span className="hidden sm:inline">{backLabel}</span>
-            <span className="sm:hidden">Back</span>
-          </Link>
-        </Button>
-      </motion.div>
-
-      {/* Title and Action */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <motion.div
-          className="min-w-0 flex-1"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
+          className="flex-1 min-w-0"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
         >
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text text-transparent mb-1">
             {title}
           </h1>
           {description && (
-            <p className="text-sm md:text-base text-muted-foreground mt-1 leading-relaxed">
+            <p className="text-base md:text-lg text-muted-foreground font-medium">
               {description}
             </p>
           )}
@@ -72,13 +50,44 @@ export function PageHeader({
         {action && (
           <motion.div
             className="flex-shrink-0"
-            initial={{ opacity: 0, x: 10 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.3 }}
+            transition={{ delay: 0.2, duration: 0.3 }}
           >
             {action}
           </motion.div>
         )}
+      </div>
+    </motion.div>
+  );
+}
+
+export function SimplePageHeader({
+  title,
+  description,
+  action,
+  className,
+}: SimplePageHeaderProps) {
+  return (
+    <motion.div
+      className={`mb-4 md:mb-6 ${className || ""}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">
+            {title}
+          </h1>
+          {description && (
+            <p className="text-sm md:text-base text-muted-foreground">
+              {description}
+            </p>
+          )}
+        </div>
+
+        {action && <div className="flex-shrink-0">{action}</div>}
       </div>
     </motion.div>
   );

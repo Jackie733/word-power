@@ -12,6 +12,7 @@ import {
   BarChart3,
   Menu,
   X,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -22,11 +23,41 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Dashboard", icon: Home },
-    { href: "/learn/new", label: "Learn", icon: BookOpen },
-    { href: "/learn/review", label: "Review", icon: RotateCcw },
-    { href: "/words", label: "Words", icon: Library },
-    { href: "/stats", label: "Stats", icon: BarChart3 },
+    {
+      href: "/",
+      label: "Dashboard",
+      icon: Home,
+      color: "text-blue-600",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+    },
+    {
+      href: "/learn/new",
+      label: "Learn",
+      icon: BookOpen,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+    },
+    {
+      href: "/learn/review",
+      label: "Review",
+      icon: RotateCcw,
+      color: "text-orange-600",
+      bgColor: "bg-orange-50 dark:bg-orange-900/20",
+    },
+    {
+      href: "/words",
+      label: "Words",
+      icon: Library,
+      color: "text-purple-600",
+      bgColor: "bg-purple-50 dark:bg-purple-900/20",
+    },
+    {
+      href: "/stats",
+      label: "Stats",
+      icon: BarChart3,
+      color: "text-amber-600",
+      bgColor: "bg-amber-50 dark:bg-amber-900/20",
+    },
   ];
 
   const toggleMobileMenu = () => {
@@ -38,195 +69,182 @@ const Navigation = () => {
   };
 
   return (
-    <>
-      <motion.nav
-        className="bg-background/80 backdrop-blur-md shadow-sm border-b sticky top-0 z-50"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-            >
-              <Link
-                href="/"
-                className="flex items-center space-x-2 group"
-                onClick={closeMobileMenu}
+    <motion.nav
+      className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60"
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <motion.div
+            className="flex items-center gap-3"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/" className="flex items-center gap-3 group">
+              <motion.div
+                className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl"
+                whileHover={{ rotate: 5, scale: 1.1 }}
+                transition={{ duration: 0.2 }}
               >
-                <motion.span
-                  className="text-2xl"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  💪
-                </motion.span>
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <Sparkles className="w-6 h-6 text-white" />
+              </motion.div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Word Power
                 </span>
-              </Link>
-            </motion.div>
+                <span className="text-xs text-muted-foreground">
+                  English Learning Assistant
+                </span>
+              </div>
+            </Link>
+          </motion.div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-2">
-              {navItems.map((item, index) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-2">
+            {navItems.map((item, index) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
 
-                return (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + index * 0.1, duration: 0.3 }}
-                  >
-                    <Button
-                      asChild
-                      variant={isActive ? "default" : "ghost"}
-                      size="sm"
-                      className={cn(
-                        "relative overflow-hidden transition-all duration-300",
-                        isActive && "shadow-md"
-                      )}
-                    >
-                      <Link
-                        href={item.href}
-                        className="flex items-center space-x-2"
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span>{item.label}</span>
-                        {isActive && (
-                          <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-md"
-                            layoutId="activeNav"
-                            transition={{
-                              type: "spring",
-                              bounce: 0.2,
-                              duration: 0.6,
-                            }}
-                          />
-                        )}
-                      </Link>
-                    </Button>
-                  </motion.div>
-                );
-              })}
-
-              {/* Desktop Theme Toggle */}
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.1 + navItems.length * 0.1,
-                  duration: 0.3,
-                }}
-              >
-                <ModeToggle />
-              </motion.div>
-            </div>
-
-            {/* Mobile Menu Controls */}
-            <div className="md:hidden flex items-center space-x-2">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
-              >
-                <ModeToggle />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.25, duration: 0.3 }}
-              >
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleMobileMenu}
-                  aria-label="Toggle mobile menu"
+              return (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
-                  <motion.div
-                    animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {isMobileMenuOpen ? (
-                      <X className="w-5 h-5" />
-                    ) : (
-                      <Menu className="w-5 h-5" />
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group",
+                      isActive
+                        ? cn("text-foreground", item.bgColor, "shadow-sm")
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     )}
-                  </motion.div>
-                </Button>
-              </motion.div>
+                  >
+                    <Icon
+                      className={cn(
+                        "w-4 h-4 transition-colors duration-300",
+                        isActive
+                          ? item.color
+                          : "text-muted-foreground group-hover:text-foreground"
+                      )}
+                    />
+                    <span>{item.label}</span>
+
+                    {/* Active indicator */}
+                    {isActive && (
+                      <motion.div
+                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10"
+                        layoutId="activeTab"
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+
+                    {/* Hover effect */}
+                    <motion.div
+                      className="absolute inset-0 rounded-xl bg-muted/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      initial={false}
+                    />
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Right side controls */}
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleMobileMenu}
+                className="p-2"
+              >
+                <motion.div
+                  animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isMobileMenuOpen ? (
+                    <X className="h-5 w-5" />
+                  ) : (
+                    <Menu className="h-5 w-5" />
+                  )}
+                </motion.div>
+              </Button>
             </div>
           </div>
         </div>
-      </motion.nav>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
             <motion.div
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={closeMobileMenu}
-            />
-
-            {/* Mobile Menu Panel */}
-            <motion.div
-              className="fixed top-16 left-0 right-0 bg-background/95 backdrop-blur-md border-b shadow-lg z-40 md:hidden"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
+              className="md:hidden"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <div className="container mx-auto px-4 py-4">
-                <div className="flex flex-col space-y-2">
-                  {navItems.map((item, index) => {
-                    const Icon = item.icon;
-                    const isActive = pathname === item.href;
+              <div className="py-4 space-y-2 border-t border-border/40">
+                {navItems.map((item, index) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
 
-                    return (
-                      <motion.div
-                        key={item.href}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1, duration: 0.3 }}
+                  return (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.3 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={closeMobileMenu}
+                        className={cn(
+                          "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300",
+                          isActive
+                            ? cn("text-foreground", item.bgColor, "shadow-sm")
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                        )}
                       >
-                        <Button
-                          asChild
-                          variant={isActive ? "default" : "ghost"}
-                          size="sm"
+                        <div
                           className={cn(
-                            "w-full justify-start transition-all duration-300",
-                            isActive && "shadow-md"
+                            "p-2 rounded-lg transition-colors duration-300",
+                            isActive ? item.bgColor : "bg-muted/50"
                           )}
-                          onClick={closeMobileMenu}
                         >
-                          <Link
-                            href={item.href}
-                            className="flex items-center space-x-3 py-3"
-                          >
-                            <Icon className="w-5 h-5" />
-                            <span className="text-base">{item.label}</span>
-                          </Link>
-                        </Button>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                          <Icon
+                            className={cn(
+                              "w-4 h-4 transition-colors duration-300",
+                              isActive ? item.color : "text-muted-foreground"
+                            )}
+                          />
+                        </div>
+                        <span>{item.label}</span>
+
+                        {isActive && (
+                          <motion.div
+                            className="ml-auto w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"
+                            layoutId="activeMobileTab"
+                            transition={{ duration: 0.3 }}
+                          />
+                        )}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.nav>
   );
 };
 
