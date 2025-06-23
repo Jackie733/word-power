@@ -40,7 +40,6 @@ export default function ReviewWords() {
   const currentWord = reviewWords[currentWordIndex];
   const remainingWords = reviewWords.length - completedWords.length;
 
-  // 获取需要复习的单词
   useEffect(() => {
     fetchReviewWords();
   }, []);
@@ -80,7 +79,7 @@ export default function ReviewWords() {
         body: JSON.stringify({
           wordId: currentWord.id,
           difficulty,
-          wasCorrect: true, // 在这个简化版本中，我们假设用户总是"看到"了答案
+          wasCorrect: true,
         }),
       });
 
@@ -88,14 +87,11 @@ export default function ReviewWords() {
         throw new Error("Failed to submit review");
       }
 
-      // 标记为已完成
       setCompletedWords(prev => [...prev, currentWord.id]);
 
-      // 移动到下一个单词
       if (currentWordIndex < reviewWords.length - 1) {
         setCurrentWordIndex(prev => prev + 1);
       } else {
-        // 所有单词复习完成时显示提醒
         toast.success("All reviews completed! Great job!");
       }
     } catch (error) {
@@ -242,7 +238,6 @@ export default function ReviewWords() {
     );
   }
 
-  // 所有单词复习完成
   if (remainingWords === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-emerald-900/20">
@@ -310,7 +305,6 @@ export default function ReviewWords() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-purple-900/20">
       <div className="container mx-auto px-4 py-6 md:py-8 max-w-4xl">
-        {/* Progress Section */}
         <motion.div
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -342,7 +336,6 @@ export default function ReviewWords() {
           </Card>
         </motion.div>
 
-        {/* Review Card */}
         <motion.div
           key={currentWord?.id}
           initial={{ opacity: 0, x: 100 }}
@@ -361,7 +354,6 @@ export default function ReviewWords() {
           />
         </motion.div>
 
-        {/* Review Tips */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
