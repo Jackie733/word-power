@@ -6,13 +6,15 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Home,
-  BookOpen,
-  RotateCcw,
   Library,
-  BarChart3,
   Menu,
   X,
   Sparkles,
+  Leaf,
+  Wind,
+  Sprout,
+  TreePine,
+  FlowerIcon as Flower,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -25,38 +27,48 @@ const Navigation = () => {
   const navItems = [
     {
       href: "/",
-      label: "Dashboard",
+      label: "Forest Home",
       icon: Home,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      description: "Your magical dashboard",
+      color: "text-ghibli-blue",
+      bgColor: "bg-blue-50/80 dark:bg-blue-900/20",
+      hoverBg: "hover:bg-blue-100/80",
     },
     {
       href: "/learn/new",
-      label: "Learn",
-      icon: BookOpen,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+      label: "Plant Seeds",
+      icon: Sprout,
+      description: "Discover new words",
+      color: "text-ghibli-green",
+      bgColor: "bg-green-50/80 dark:bg-green-900/20",
+      hoverBg: "hover:bg-green-100/80",
     },
     {
       href: "/learn/review",
-      label: "Review",
-      icon: RotateCcw,
-      color: "text-orange-600",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
+      label: "Tend Garden",
+      icon: Flower,
+      description: "Review learned words",
+      color: "text-ghibli-red",
+      bgColor: "bg-red-50/80 dark:bg-red-900/20",
+      hoverBg: "hover:bg-red-100/80",
     },
     {
       href: "/words",
-      label: "Words",
+      label: "Magic Library",
       icon: Library,
+      description: "Browse your collection",
       color: "text-purple-600",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
+      bgColor: "bg-purple-50/80 dark:bg-purple-900/20",
+      hoverBg: "hover:bg-purple-100/80",
     },
     {
       href: "/stats",
-      label: "Stats",
-      icon: BarChart3,
+      label: "Growth Chart",
+      icon: TreePine,
+      description: "Track your progress",
       color: "text-amber-600",
-      bgColor: "bg-amber-50 dark:bg-amber-900/20",
+      bgColor: "bg-amber-50/80 dark:bg-amber-900/20",
+      hoverBg: "hover:bg-amber-100/80",
     },
   ];
 
@@ -70,40 +82,84 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60"
+      className="sticky top-0 z-50 w-full border-b border-border/40 watercolor-bg backdrop-blur-xl shadow-natural motion-safe"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
+      {/* Floating decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-2 left-20 text-ghibli-green/30"
+          animate={{
+            y: [0, -10, 0],
+            rotate: [0, 5, -5, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <Leaf className="w-4 h-4" />
+        </motion.div>
+        <motion.div
+          className="absolute top-4 right-32 text-ghibli-blue/30"
+          animate={{
+            y: [0, 8, 0],
+            x: [0, 5, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        >
+          <Wind className="w-3 h-3" />
+        </motion.div>
+      </div>
+
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <motion.div
-            className="flex items-center gap-3"
-            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-3 motion-safe hover-fix"
+            whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             <Link href="/" className="flex items-center gap-3 group">
               <motion.div
-                className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl"
+                className="relative p-2 ghibli-blue rounded-2xl shadow-natural motion-safe motion-scale"
                 whileHover={{ rotate: 5, scale: 1.1 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.3 }}
               >
                 <Sparkles className="w-6 h-6 text-white" />
+                <motion.div
+                  className="absolute -inset-1 ghibli-blue rounded-2xl opacity-20 blur-sm"
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.2, 0.4, 0.2],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                  }}
+                />
               </motion.div>
               <div className="flex flex-col">
-                <span className="font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="font-handwritten-bold text-xl text-ghibli-blue">
                   Word Power
                 </span>
-                <span className="text-xs text-muted-foreground">
-                  English Learning Assistant
+                <span className="text-xs text-muted-foreground font-medium">
+                  Magical Learning Journey
                 </span>
               </div>
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -113,39 +169,51 @@ const Navigation = () => {
                   key={item.href}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
                 >
                   <Link
                     href={item.href}
                     className={cn(
-                      "relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group",
+                      "relative group flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm font-medium transition-all duration-300",
                       isActive
-                        ? cn("text-foreground", item.bgColor, "shadow-sm")
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                        ? cn("text-foreground shadow-natural", item.bgColor)
+                        : cn(
+                            "text-muted-foreground hover:text-foreground",
+                            item.hoverBg
+                          )
                     )}
                   >
                     <Icon
                       className={cn(
-                        "w-4 h-4 transition-colors duration-300",
+                        "w-4 h-4 transition-all duration-300",
                         isActive
                           ? item.color
-                          : "text-muted-foreground group-hover:text-foreground"
+                          : "text-muted-foreground group-hover:text-foreground group-hover:scale-110"
                       )}
                     />
-                    <span>{item.label}</span>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{item.label}</span>
+                      <span className="text-xs opacity-60 group-hover:opacity-80 transition-opacity">
+                        {item.description}
+                      </span>
+                    </div>
 
                     {/* Active indicator */}
                     {isActive && (
                       <motion.div
-                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10"
+                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-ghibli-blue/10 via-ghibli-green/10 to-ghibli-red/10"
                         layoutId="activeTab"
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.4 }}
                       />
                     )}
 
-                    {/* Hover effect */}
+                    {/* Hover magical effect */}
                     <motion.div
-                      className="absolute inset-0 rounded-xl bg-muted/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{
+                        background:
+                          "radial-gradient(circle at center, rgba(136, 170, 204, 0.1) 0%, transparent 70%)",
+                      }}
                       initial={false}
                     />
                   </Link>
@@ -164,11 +232,11 @@ const Navigation = () => {
                 variant="ghost"
                 size="sm"
                 onClick={toggleMobileMenu}
-                className="p-2"
+                className="p-2 rounded-xl hover:bg-muted/50"
               >
                 <motion.div
                   animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.3 }}
                 >
                   {isMobileMenuOpen ? (
                     <X className="h-5 w-5" />
@@ -189,7 +257,7 @@ const Navigation = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
             >
               <div className="py-4 space-y-2 border-t border-border/40">
                 {navItems.map((item, index) => {
@@ -209,32 +277,25 @@ const Navigation = () => {
                         className={cn(
                           "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300",
                           isActive
-                            ? cn("text-foreground", item.bgColor, "shadow-sm")
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                            ? cn("text-foreground shadow-natural", item.bgColor)
+                            : cn(
+                                "text-muted-foreground hover:text-foreground",
+                                item.hoverBg
+                              )
                         )}
                       >
-                        <div
+                        <Icon
                           className={cn(
-                            "p-2 rounded-lg transition-colors duration-300",
-                            isActive ? item.bgColor : "bg-muted/50"
+                            "w-5 h-5 transition-colors duration-300",
+                            isActive ? item.color : "text-muted-foreground"
                           )}
-                        >
-                          <Icon
-                            className={cn(
-                              "w-4 h-4 transition-colors duration-300",
-                              isActive ? item.color : "text-muted-foreground"
-                            )}
-                          />
+                        />
+                        <div className="flex flex-col">
+                          <span>{item.label}</span>
+                          <span className="text-xs opacity-60">
+                            {item.description}
+                          </span>
                         </div>
-                        <span>{item.label}</span>
-
-                        {isActive && (
-                          <motion.div
-                            className="ml-auto w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"
-                            layoutId="activeMobileTab"
-                            transition={{ duration: 0.3 }}
-                          />
-                        )}
                       </Link>
                     </motion.div>
                   );

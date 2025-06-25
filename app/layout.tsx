@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Kalam } from "next/font/google";
 import Navigation from "../components/Navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const kalam = Kalam({
+  variable: "--font-kalam",
   subsets: ["latin"],
+  weight: ["300", "400", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Word Power - English Word Learning System",
+  title: "Word Power - Magical English Learning Journey",
   description:
-    "An English word learning application based on the Ebbinghaus forgetting curve.",
+    "Embark on a magical journey to master English words with our enchanting learning system inspired by the beauty of nature.",
 };
 
 export default function RootLayout({
@@ -28,12 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-US" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${kalam.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
